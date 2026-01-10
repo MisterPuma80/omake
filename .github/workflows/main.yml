@@ -1,0 +1,52 @@
+name: Build and Test Blazium Module
+on: [push, pull_request]
+
+jobs:
+  build-linux:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install Dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install build-essential scons pkg-config clang mold libx11-dev \
+          libxcursor-dev libxinerama-dev libgl1-mesa-dev libglu-dev libasound2-dev \
+          libpulse-dev libudev-dev libxi-dev libxrandr-dev
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: 3.x
+          architecture: x64
+
+      - name: Setup SCons
+        shell: bash
+        run: |
+          python -c "import sys; print(sys.version)"
+          python -m pip install scons==4.10.1
+          scons --version
+
+      - name: Checkout Blazium Engine
+        uses: actions/checkout@v4
+        with:
+          repository: blazium-games/blazium
+          ref: blazium-4.5
+          path: blazium
+
+      - name: Checkout Module
+        uses: actions/checkout@v4
+        with:
+          path: blazium/modules/omake
+
+      - name: Compile Blazium with Module
+        working-directory: blazium
+        run: |
+          scons platform=linuxbsd target=editor dev_build=yes use_llvm=yes linker=mold tests=yes execinfo=yes scu_build=yes
+
+      - name: Run Test Suite
+        working-directory: blazium
+        run: |
+          chmod +x bin/blazium.linuxbsd.editor.dev.x86_64.llvm
+          ./bin/blazium.linuxbsd.editor.dev.x86_64.llvm --version
+          ./bin/blazium.linuxbsd.editor.dev.x86_64.llvm --help
+          ./bin/blazium.linuxbsd.editor.dev.x86_64.llvm --headless --test --force-colors
+
