@@ -8,6 +8,14 @@
 	</description>
 	<tutorials>
 	</tutorials>
+	<constants>
+		<constant name="INT64_MAX" value="9223372036854775807">
+			Max signed 64 bit int value.
+		</constant>
+		<constant name="INT64_MIN" value="-9223372036854775808">
+			Min signed 64 bit int value.
+		</constant>
+	</constants>
 	<methods>
 		<method name="test_func" qualifiers="static">
 			<return type="int" />
