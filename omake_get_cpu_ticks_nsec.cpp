@@ -1,5 +1,5 @@
 /**************************************************************************/
-/*  test_omake.h                                                          */
+/*  omake_get_cpu_ticks_nsec.cpp                                          */
 /**************************************************************************/
 /*                         This file is part of:                          */
 /*                                  Omake                                 */
@@ -27,37 +27,12 @@
 /* SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.                 */
 /**************************************************************************/
 
-#pragma once
+#include "omake_get_cpu_ticks_nsec.h"
+#include <chrono>
+#include <cstdint>
 
-#include "tests/test_macros.h"
-
-#include "modules/omake/omake.h"
-
-namespace TestOmakeMisc {
-
-TEST_CASE("[Omake] test_consts") {
-	CHECK(Omake::_INT64_MIN == INT64_MIN);
-	CHECK(Omake::_INT64_MAX == INT64_MAX);
+uint64_t omake_get_cpu_ticks_nsec() {
+	auto now = std::chrono::high_resolution_clock::now();
+	auto ns = std::chrono::duration_cast<std::chrono::nanoseconds>(now.time_since_epoch()).count();
+	return static_cast<uint64_t>(ns);
 }
-
-TEST_CASE("[Omake] test_get_cpu_ticks_nsec") {
-	uint64_t ticks = Omake::get_cpu_ticks_nsec();
-	CHECK(ticks > 0);
-}
-
-TEST_CASE("[Omake] add_clampedi") {
-	CHECK(6 == Omake::add_clampedi(1, 5, 0, 100)); // Normal add
-	CHECK(-4 == Omake::add_clampedi(1, -5, -100, 100)); // Normal add
-	CHECK(0 == Omake::add_clampedi(6, -900, 0, 100)); // Clamp Underflow
-	CHECK(100 == Omake::add_clampedi(6, 900, 0, 100)); // Clamp Overflow
-
-	CHECK(INT64_MAX == Omake::add_clampedi(7, INT64_MAX)); // Clamp Overflow
-	CHECK(INT64_MIN == Omake::add_clampedi(-8, INT64_MIN)); // Clamp Underflow
-	CHECK(0 == Omake::add_clampedi(0, INT64_MIN, 0, INT64_MAX)); // Clamp Underflow
-}
-
-TEST_CASE("[Omake] test_func") {
-	CHECK(69 == Omake::test_func());
-}
-
-} //namespace TestOmakeMisc

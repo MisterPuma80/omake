@@ -30,6 +30,7 @@
 #pragma once
 
 #include "core/object/object.h"
+#include "scene/3d/node_3d.h"
 
 class Omake : public Object {
 	GDCLASS(Omake, Object);
@@ -43,6 +44,9 @@ public:
 
 	Omake();
 	~Omake();
+
+	static uint64_t get_cpu_ticks_nsec();
+	static int64_t add_clampedi(int64_t a, int64_t b, int64_t min = _INT64_MIN, int64_t max = _INT64_MAX);
 
 	static int64_t test_func();
 };

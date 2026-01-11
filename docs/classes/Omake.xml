@@ -9,6 +9,12 @@
 	<tutorials>
 	</tutorials>
 	<methods>
+		<method name="get_cpu_ticks_nsec" qualifiers="const">
+			<return type="int" />
+			<description>
+				Returns the CPU ticks in nanoseconds.
+			</description>
+		</method>
 	</methods>
 	<constants>
 	</constants>
