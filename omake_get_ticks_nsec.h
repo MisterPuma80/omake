@@ -1,5 +1,5 @@
 /**************************************************************************/
-/*  omake_get_cpu_ticks_nsec.h                                            */
+/*  omake_get_ticks_nsec.h                                            */
 /**************************************************************************/
 /*                         This file is part of:                          */
 /*                                  Omake                                 */
@@ -31,4 +31,8 @@
 
 #include <cstdint>
 
-uint64_t omake_get_cpu_ticks_nsec();
+static uint64_t _start_time = 0;
+
+void omake_init_get_ticks_nsec();
+
+uint64_t omake_get_ticks_nsec();

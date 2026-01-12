@@ -34,10 +34,10 @@
 				By default min is INT64_MIN and max is INT64_MAX.
 			</description>
 		</method>
-		<method name="get_cpu_ticks_nsec" qualifiers="static">
+		<method name="get_ticks_nsec" qualifiers="static">
 			<return type="int" />
 			<description>
-				Returns the CPU ticks in nanoseconds.
+				Returns the CPU ticks in nanoseconds since the engine started.
 			</description>
 		</method>
 	</methods>

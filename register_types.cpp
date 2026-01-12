@@ -30,6 +30,8 @@
 #include "register_types.h"
 
 #include "core/object/class_db.h"
+
+#include "omake_get_ticks_nsec.h"
 #include "omake.h"
 
 void initialize_omake_module(ModuleInitializationLevel p_level) {
@@ -37,6 +39,8 @@ void initialize_omake_module(ModuleInitializationLevel p_level) {
 		return;
 	}
 	ClassDB::register_class<Omake>();
+
+	omake_init_get_ticks_nsec();
 }
 
 void uninitialize_omake_module(ModuleInitializationLevel p_level) {

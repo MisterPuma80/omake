@@ -45,7 +45,7 @@ public:
 	Omake();
 	~Omake();
 
-	static uint64_t get_cpu_ticks_nsec();
+	static uint64_t get_ticks_nsec();
 	static int64_t add_clampedi(int64_t a, int64_t b, int64_t min = _INT64_MIN, int64_t max = _INT64_MAX);
 
 	static int64_t test_func();
