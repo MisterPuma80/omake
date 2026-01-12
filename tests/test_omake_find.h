@@ -38,6 +38,27 @@
 #include <chrono>
 
 namespace TestOmakeFind {
+Node *_make_node_tree(int total_child_nodes) {
+	Ref<RandomNumberGenerator> rng = memnew(RandomNumberGenerator);
+	rng->set_seed(69);
+	Node *root_node = memnew(Node);
+	Node *node = root_node;
+	for (int i = 0; i < total_child_nodes; i++) {
+		Node *new_node = memnew(Node);
+		new_node->set_name(vformat("da_node_%d", i));
+		new_node->add_to_group("thing");
+		node->add_child(new_node);
+		int j = rng->randf_range(0, node->get_child_count());
+		node->move_child(new_node, j);
+
+		if (rng->randf() > 0.5) {
+			node = new_node;
+		}
+	}
+
+	return root_node;
+}
+
 Node *_make_node_tree_flat(int total_child_nodes) {
 	Ref<RandomNumberGenerator> rng = memnew(RandomNumberGenerator);
 	rng->set_seed(42);
@@ -50,10 +71,6 @@ Node *_make_node_tree_flat(int total_child_nodes) {
 		node->add_child(new_node);
 		int j = rng->randf_range(0, node->get_child_count());
 		node->move_child(new_node, j);
-
-		//if (rng->randf() > 0.5) {
-		//	node = new_node;
-		//}
 	}
 
 	return root_node;
@@ -83,6 +100,75 @@ TEST_CASE("[OmakeFind] get_groups") {
 
 	PackedStringArray all = Omake::get_groups(node);
 	CHECK(all == groups);
+
+	_delete_node_tree(node);
+}
+
+TEST_CASE("[OmakeFind] get_children") {
+	const int total_child_nodes = 100;
+	Node *node = _make_node_tree_flat(total_child_nodes);
+
+	Ref<PackedNodeArray> all = Omake::get_children(node);
+	CHECK(all->size() == total_child_nodes);
+	CHECK(all->get_node(0)->get_name() == "da_node_12");
+	CHECK(all->get_node(1)->get_name() == "da_node_85");
+
+	_delete_node_tree(node);
+}
+
+TEST_CASE("[OmakeFind] find_all") {
+	const int total_child_nodes = 100;
+	Node *node = _make_node_tree(total_child_nodes);
+
+	Ref<PackedNodeArray> all = Omake::find_all(node);
+	CHECK(all->size() == total_child_nodes);
+	CHECK(all->get_node(0)->get_name() == "da_node_0");
+	CHECK(all->get_node(1)->get_name() == "da_node_1");
+
+	_delete_node_tree(node);
+}
+
+TEST_CASE("[OmakeFind] find_by_name") {
+	const int total_child_nodes = 100;
+	Node *node = _make_node_tree(total_child_nodes);
+
+	Ref<PackedNodeArray> all = Omake::find_by_name(node, "da_node_1?");
+	CHECK(all->size() == 10);
+	CHECK(all->get_node(0)->get_name() == "da_node_13");
+	CHECK(all->get_node(1)->get_name() == "da_node_11");
+
+	Ref<PackedNodeArray> none = Omake::find_by_name(node, "NotAName");
+	CHECK(none->size() == 0);
+
+	_delete_node_tree(node);
+}
+
+TEST_CASE("[OmakeFind] find_by_type") {
+	const int total_child_nodes = 100;
+	Node *node = _make_node_tree(total_child_nodes);
+
+	Ref<PackedNodeArray> all = Omake::find_by_type(node, "Node");
+	CHECK(all->size() == total_child_nodes);
+	CHECK(all->get_node(0)->get_name() == "da_node_0");
+	CHECK(all->get_node(1)->get_name() == "da_node_1");
+
+	Ref<PackedNodeArray> none = Omake::find_by_type(node, "NotAType");
+	CHECK(none->size() == 0);
+
+	_delete_node_tree(node);
+}
+
+TEST_CASE("[OmakeFind] find_by_group") {
+	const int total_child_nodes = 100;
+	Node *node = _make_node_tree(total_child_nodes);
+
+	Ref<PackedNodeArray> all = Omake::find_by_group(node, "thing");
+	CHECK(all->size() == total_child_nodes);
+	CHECK(all->get_node(0)->get_name() == "da_node_0");
+	CHECK(all->get_node(1)->get_name() == "da_node_1");
+
+	Ref<PackedNodeArray> none = Omake::find_by_group(node, "NotAGroup");
+	CHECK(none->size() == 0);
 
 	_delete_node_tree(node);
 }
