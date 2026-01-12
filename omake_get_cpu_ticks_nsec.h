@@ -31,4 +31,8 @@
 
 #include <cstdint>
 
+static uint64_t _start_time = 0;
+
+void omake_init_get_cpu_ticks_nsec();
+
 uint64_t omake_get_cpu_ticks_nsec();
