@@ -1,5 +1,5 @@
 /**************************************************************************/
-/*  register_types.cpp                                                    */
+/*  test_omake_find.h                                                     */
 /**************************************************************************/
 /*                         This file is part of:                          */
 /*                                  Omake                                 */
@@ -27,26 +27,64 @@
 /* SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.                 */
 /**************************************************************************/
 
-#include "register_types.h"
+#pragma once
 
-#include "core/object/class_db.h"
+#include "tests/test_macros.h"
+#include "core/math/random_number_generator.h"
+//#include <godot_cpp/classes/scene_tree.hpp>
 
-#include "omake_get_ticks_nsec.h"
-#include "omake.h"
-#include "omake_packed_node_array.h"
+#include "modules/omake/omake.h"
 
-void initialize_omake_module(ModuleInitializationLevel p_level) {
-	if (p_level != MODULE_INITIALIZATION_LEVEL_SCENE) {
-		return;
+#include <chrono>
+
+namespace TestOmakeFind {
+Node *_make_node_tree_flat(int total_child_nodes) {
+	Ref<RandomNumberGenerator> rng = memnew(RandomNumberGenerator);
+	rng->set_seed(42);
+	Node *root_node = memnew(Node);
+	Node *node = root_node;
+	for (int i = 0; i < total_child_nodes; i++) {
+		Node *new_node = memnew(Node);
+		new_node->set_name(vformat("da_node_%d", i));
+		new_node->add_to_group("thing");
+		node->add_child(new_node);
+		int j = rng->randf_range(0, node->get_child_count());
+		node->move_child(new_node, j);
+
+		//if (rng->randf() > 0.5) {
+		//	node = new_node;
+		//}
 	}
-	ClassDB::register_class<Omake>();
-	ClassDB::register_class<PackedNodeArray>();
 
-	omake_init_get_ticks_nsec();
+	return root_node;
 }
 
-void uninitialize_omake_module(ModuleInitializationLevel p_level) {
-	if (p_level != MODULE_INITIALIZATION_LEVEL_SCENE) {
-		return;
+void _delete_node_tree(Node *root_tree) {
+	TypedArray<Node> all = root_tree->find_children("*", "", true, false);
+
+	for (int i = all.size()-1; i >= 0; i--) {
+		//print_line(vformat("!!! memdelete i: \"%d\"", i));
+		Node *n = Object::cast_to<Node>(all[i]);
+		if (n != nullptr) {
+			memdelete(n);
+			all[i] = Variant(); // FIXME: Isn't there a better way to do Variant null?
+		}
 	}
+	all.clear();
+	memdelete(root_tree);
 }
+
+TEST_CASE("[OmakeFind] get_groups") {
+	Node *node = memnew(Node);
+	PackedStringArray groups {"Food", "Enemy", "Weapon"};
+	for (String group : groups) {
+		node->add_to_group(group);
+	}
+
+	PackedStringArray all = Omake::get_groups(node);
+	CHECK(all == groups);
+
+	_delete_node_tree(node);
+}
+
+} // namespace TestOmakeFind

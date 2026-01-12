@@ -1,5 +1,5 @@
 /**************************************************************************/
-/*  register_types.cpp                                                    */
+/*  omake_find.h                                                          */
 /**************************************************************************/
 /*                         This file is part of:                          */
 /*                                  Omake                                 */
@@ -27,26 +27,26 @@
 /* SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.                 */
 /**************************************************************************/
 
-#include "register_types.h"
+#pragma once
 
-#include "core/object/class_db.h"
+#include "core/object/ref_counted.h"
+#include "core/variant/typed_array.h"
 
-#include "omake_get_ticks_nsec.h"
-#include "omake.h"
-#include "omake_packed_node_array.h"
+#include "modules/omake/omake_packed_node_array.h"
 
-void initialize_omake_module(ModuleInitializationLevel p_level) {
-	if (p_level != MODULE_INITIALIZATION_LEVEL_SCENE) {
-		return;
-	}
-	ClassDB::register_class<Omake>();
-	ClassDB::register_class<PackedNodeArray>();
+class Node;
 
-	omake_init_get_ticks_nsec();
-}
+class OmakeFind {
+private:
+	static Node *const *_get_children_ptr(const Node *p_node, int *p_count, bool p_include_internal = false);
 
-void uninitialize_omake_module(ModuleInitializationLevel p_level) {
-	if (p_level != MODULE_INITIALIZATION_LEVEL_SCENE) {
-		return;
-	}
-}
+public:
+	static Ref<PackedNodeArray> children(const Node *p_node, const bool p_include_internal = true);
+	static Ref<PackedNodeArray> all(const Node *p_node);
+	static Ref<PackedNodeArray> by(const Node *p_node, const String &p_pattern, const String &p_type, const bool p_recursive = true, const bool p_owned = true);
+	static Ref<PackedNodeArray> by_name(const Node *p_node, const String &p_node_name);
+	static Ref<PackedNodeArray> by_type(const Node *p_node, const String &p_type_name);
+	static Ref<PackedNodeArray> by_group(const Node *p_node, const String &p_group_name);
+	static Ref<PackedNodeArray> by_groups(const Node *p_node, const TypedArray<String> &p_group_names);
+	static PackedStringArray get_groups(const Node *p_node);
+};

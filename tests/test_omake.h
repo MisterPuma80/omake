@@ -30,8 +30,12 @@
 #pragma once
 
 #include "tests/test_macros.h"
+#include "core/math/random_number_generator.h"
+//#include <godot_cpp/classes/scene_tree.hpp>
 
 #include "modules/omake/omake.h"
+
+#include <chrono>
 
 namespace TestOmakeMisc {
 
@@ -64,3 +68,5 @@ TEST_CASE("[Omake] test_func") {
 }
 
 } //namespace TestOmakeMisc
+
+
