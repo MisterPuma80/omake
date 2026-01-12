@@ -1,5 +1,5 @@
 /**************************************************************************/
-/*  omake_get_cpu_ticks_nsec.cpp                                          */
+/*  omake_get_ticks_nsec.h                                            */
 /**************************************************************************/
 /*                         This file is part of:                          */
 /*                                  Omake                                 */
@@ -27,16 +27,12 @@
 /* SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.                 */
 /**************************************************************************/
 
-#include "omake_get_cpu_ticks_nsec.h"
-#include <chrono>
+#pragma once
+
 #include <cstdint>
 
-void omake_init_get_cpu_ticks_nsec() {
-    _start_time = omake_get_cpu_ticks_nsec();
-}
+static uint64_t _start_time = 0;
 
-uint64_t omake_get_cpu_ticks_nsec() {
-	auto now = std::chrono::high_resolution_clock::now();
-	auto ns = std::chrono::duration_cast<std::chrono::nanoseconds>(now.time_since_epoch()).count();
-	return static_cast<uint64_t>(ns) - _start_time;
-}
+void omake_init_get_ticks_nsec();
+
+uint64_t omake_get_ticks_nsec();

@@ -9,10 +9,10 @@
 	<tutorials>
 	</tutorials>
 	<methods>
-		<method name="get_cpu_ticks_nsec" qualifiers="const">
+		<method name="get_ticks_nsec" qualifiers="const">
 			<return type="int" />
 			<description>
-				Returns the CPU ticks in nanoseconds.
+				Returns the CPU ticks in nanoseconds since the engine started.
 			</description>
 		</method>
 	</methods>

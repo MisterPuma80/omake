@@ -40,9 +40,9 @@ TEST_CASE("[Omake] test_consts") {
 	CHECK(Omake::_INT64_MAX == INT64_MAX);
 }
 
-TEST_CASE("[Omake] test_get_cpu_ticks_nsec") {
-	uint64_t ticks_a = Omake::get_cpu_ticks_nsec();
-	uint64_t ticks_b = Omake::get_cpu_ticks_nsec();
+TEST_CASE("[Omake] test_get_ticks_nsec") {
+	uint64_t ticks_a = Omake::get_ticks_nsec();
+	uint64_t ticks_b = Omake::get_ticks_nsec();
 	CHECK(ticks_a > 0);
 	CHECK(ticks_b > 0);
 	CHECK(ticks_a < ticks_b);

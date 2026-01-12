@@ -28,7 +28,7 @@
 /**************************************************************************/
 
 #include "omake.h"
-#include "omake_get_cpu_ticks_nsec.h"
+#include "omake_get_ticks_nsec.h"
 
 #include "core/object/script_language.h"
 
@@ -45,8 +45,8 @@ Omake::~Omake() {
 	//print_line("Omake destroyed");
 }
 
-uint64_t Omake::get_cpu_ticks_nsec() {
-	return omake_get_cpu_ticks_nsec();
+uint64_t Omake::get_ticks_nsec() {
+	return omake_get_ticks_nsec();
 }
 
 int64_t Omake::add_clampedi(int64_t a, int64_t b, int64_t min, int64_t max) {
@@ -71,7 +71,7 @@ void Omake::_bind_methods() {
 	ClassDB::bind_integer_constant("Omake", "", "INT64_MIN", Omake::_INT64_MIN);
 	ClassDB::bind_integer_constant("Omake", "", "INT64_MAX", Omake::_INT64_MAX);
 
-	ClassDB::bind_static_method("Omake", D_METHOD("get_cpu_ticks_nsec"), &Omake::get_cpu_ticks_nsec);
+	ClassDB::bind_static_method("Omake", D_METHOD("get_ticks_nsec"), &Omake::get_ticks_nsec);
 	ClassDB::bind_static_method("Omake", D_METHOD("add_clampedi", "a", "b", "min", "max"), &Omake::add_clampedi, DEFVAL(Omake::_INT64_MIN), DEFVAL(Omake::_INT64_MAX));
 	ClassDB::bind_static_method("Omake", D_METHOD("test_func"), &Omake::test_func);
 }

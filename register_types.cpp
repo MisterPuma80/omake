@@ -31,7 +31,7 @@
 
 #include "core/object/class_db.h"
 
-#include "omake_get_cpu_ticks_nsec.h"
+#include "omake_get_ticks_nsec.h"
 #include "omake.h"
 
 void initialize_omake_module(ModuleInitializationLevel p_level) {
@@ -40,7 +40,7 @@ void initialize_omake_module(ModuleInitializationLevel p_level) {
 	}
 	ClassDB::register_class<Omake>();
 
-	omake_init_get_cpu_ticks_nsec();
+	omake_init_get_ticks_nsec();
 }
 
 void uninitialize_omake_module(ModuleInitializationLevel p_level) {
