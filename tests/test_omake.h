@@ -41,8 +41,11 @@ TEST_CASE("[Omake] test_consts") {
 }
 
 TEST_CASE("[Omake] test_get_cpu_ticks_nsec") {
-	uint64_t ticks = Omake::get_cpu_ticks_nsec();
-	CHECK(ticks > 0);
+	uint64_t ticks_a = Omake::get_cpu_ticks_nsec();
+	uint64_t ticks_b = Omake::get_cpu_ticks_nsec();
+	CHECK(ticks_a > 0);
+	CHECK(ticks_b > 0);
+	CHECK(ticks_a < ticks_b);
 }
 
 TEST_CASE("[Omake] add_clampedi") {
