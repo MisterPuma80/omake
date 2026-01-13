@@ -42,15 +42,15 @@ Ref<PackedNodeArray> OmakeFind::children(const Node *p_node, const bool p_includ
 	//ERR_THREAD_GUARD_V(nullptr); // FIXME
 
 	int cc;
-	Node *const *cptr = _get_children_ptr(p_node, &cc, p_include_internal);
+	Node *const *from_ptr = _get_children_ptr(p_node, &cc, p_include_internal);
 
 	Ref<PackedNodeArray> nodes = memnew(PackedNodeArray);
-	LocalVector<Node *> *ptr = nodes->get_node_ptr();
-	ptr->resize(cc);
-	//for (int i = 0; i < cc; i++) {
-	//	(*ptr)[i] = cptr[i];
-	//}
-	memcpy(ptr->ptr(), cptr, cc * sizeof(Node *));
+	nodes->resize(cc);
+	Node **to_ptr = nodes->get_node_ptr()->ptr();
+	for (int i = 0; i < cc; i++) {
+		to_ptr[i] = from_ptr[i];
+	}
+	//memcpy(to_ptr, from_ptr, cc * sizeof(Node *));
 
 	return nodes;
 }
