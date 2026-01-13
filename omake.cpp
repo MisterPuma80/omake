@@ -66,31 +66,31 @@ int64_t Omake::add_clampedi(int64_t a, int64_t b, int64_t min, int64_t max) {
 }
 
 Ref<PackedNodeArray> Omake::get_children(const Node *p_node, const bool p_include_internal) {
-	return OmakeFind::children(p_node, p_include_internal);
+	return OmakeFind::get_children(p_node, p_include_internal);
 }
 
 Ref<PackedNodeArray> Omake::find_all(const Node *p_node) {
-	return OmakeFind::all(p_node);
+	return OmakeFind::find_all(p_node);
 }
 
 Ref<PackedNodeArray> Omake::find_by_name(const Node *p_node, const String &p_node_name) {
-	return OmakeFind::by_name(p_node, p_node_name);
+	return OmakeFind::find_by_name(p_node, p_node_name);
 }
 
 Ref<PackedNodeArray> Omake::find_by_type(const Node *p_node, const String &p_type_name) {
-	return OmakeFind::by_type(p_node, p_type_name);
+	return OmakeFind::find_by_type(p_node, p_type_name);
 }
 
 Ref<PackedNodeArray> Omake::find_by_group(const Node *p_node, const String &p_group_name) {
-	return OmakeFind::by_group(p_node, p_group_name);
+	return OmakeFind::find_by_group(p_node, p_group_name);
 }
 
 Ref<PackedNodeArray> Omake::find_by_groups(const Node *p_node, const TypedArray<String> &p_group_names) {
-	return OmakeFind::by_groups(p_node, p_group_names);
+	return OmakeFind::find_by_groups(p_node, p_group_names);
 }
 
 Ref<PackedNodeArray> Omake::find_by(const Node *p_node, const String &p_pattern, const String &p_type, const bool p_recursive, const bool p_owned) {
-	return OmakeFind::by(p_node, p_pattern, p_type, p_recursive, p_owned);
+	return OmakeFind::find_by(p_node, p_pattern, p_type, p_recursive, p_owned);
 }
 
 PackedStringArray Omake::get_groups(const Node *p_node) {
@@ -112,5 +112,6 @@ void Omake::_bind_methods() {
 	ClassDB::bind_static_method("Omake", D_METHOD("find_by_type", "node", "type_name"), &Omake::find_by_type);
 	ClassDB::bind_static_method("Omake", D_METHOD("find_by_group", "node", "group_name"), &Omake::find_by_group);
 	ClassDB::bind_static_method("Omake", D_METHOD("find_by_groups", "node", "group_names"), &Omake::find_by_groups);
+
 	ClassDB::bind_static_method("Omake", D_METHOD("get_groups", "node"), &Omake::get_groups);
 }
