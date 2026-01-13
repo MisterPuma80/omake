@@ -40,5 +40,62 @@
 				Returns the CPU ticks in nanoseconds since the engine started.
 			</description>
 		</method>
+		<method name="find_all" qualifiers="static">
+			<return type="PackedNodeArray" />
+			<param index="0" name="node" type="Node" />
+			<description>
+			</description>
+		</method>
+		<method name="find_by" qualifiers="static">
+			<return type="PackedNodeArray" />
+			<param index="0" name="node" type="Node" />
+			<param index="1" name="pattern" type="String" />
+			<param index="2" name="type" type="String" default="&quot;&quot;" />
+			<param index="3" name="recursive" type="bool" default="true" />
+			<param index="4" name="owned" type="bool" default="true" />
+			<description>
+			</description>
+		</method>
+		<method name="find_by_group" qualifiers="static">
+			<return type="PackedNodeArray" />
+			<param index="0" name="node" type="Node" />
+			<param index="1" name="group_name" type="String" />
+			<description>
+			</description>
+		</method>
+		<method name="find_by_groups" qualifiers="static">
+			<return type="PackedNodeArray" />
+			<param index="0" name="node" type="Node" />
+			<param index="1" name="group_names" type="String[]" />
+			<description>
+			</description>
+		</method>
+		<method name="find_by_name" qualifiers="static">
+			<return type="PackedNodeArray" />
+			<param index="0" name="node" type="Node" />
+			<param index="1" name="node_name" type="String" />
+			<description>
+			</description>
+		</method>
+		<method name="find_by_type" qualifiers="static">
+			<return type="PackedNodeArray" />
+			<param index="0" name="node" type="Node" />
+			<param index="1" name="type_name" type="String" />
+			<description>
+			</description>
+		</method>
+		<method name="get_children" qualifiers="static">
+			<return type="PackedNodeArray" />
+			<param index="0" name="node" type="Node" />
+			<param index="1" name="include_internal" type="bool" default="true" />
+			<description>
+			</description>
+		</method>
+		<method name="get_groups" qualifiers="static">
+			<return type="PackedStringArray" />
+			<param index="0" name="node" type="Node" />
+			<description>
+			</description>
+		</method>
 	</methods>
 </class>

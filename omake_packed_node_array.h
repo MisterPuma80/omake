@@ -1,5 +1,5 @@
 /**************************************************************************/
-/*  register_types.cpp                                                    */
+/*  omake_packed_node_array.h                                             */
 /**************************************************************************/
 /*                         This file is part of:                          */
 /*                                  Omake                                 */
@@ -27,26 +27,45 @@
 /* SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.                 */
 /**************************************************************************/
 
-#include "register_types.h"
+#pragma once
 
-#include "core/object/class_db.h"
+#include "core/object/ref_counted.h"
+#include "core/variant/typed_array.h"
 
-#include "omake_get_ticks_nsec.h"
-#include "omake.h"
-#include "omake_packed_node_array.h"
+#include "scene/main/node.h"
 
-void initialize_omake_module(ModuleInitializationLevel p_level) {
-	if (p_level != MODULE_INITIALIZATION_LEVEL_SCENE) {
-		return;
-	}
-	ClassDB::register_class<Omake>();
-	ClassDB::register_class<PackedNodeArray>();
+class PackedNodeArray : public RefCounted {
+	GDCLASS(PackedNodeArray, RefCounted);
 
-	omake_init_get_ticks_nsec();
-}
+private:
+	mutable LocalVector<Node *> nodes;
+	uint32_t current_index;
 
-void uninitialize_omake_module(ModuleInitializationLevel p_level) {
-	if (p_level != MODULE_INITIALIZATION_LEVEL_SCENE) {
-		return;
-	}
-}
+protected:
+	static void _bind_methods();
+
+public:
+	PackedNodeArray();
+	~PackedNodeArray();
+
+	LocalVector<Node *> *get_node_ptr();
+	void push_back(Node *p_node);
+	_FORCE_INLINE_ void append(Node *p_node);
+	Node *get_node(int p_index) const;
+	void set_node(int p_index, Node *p_node);
+	int size() const;
+	void resize(int p_new_size);
+	void clear();
+
+	Node *front() const;
+	Node *back() const;
+	Node *pick_random() const;
+	int find(Node *p_node, int p_from = 0) const;
+	bool has(Node *p_node) const;
+	TypedArray<Node> to_array() const;
+	bool is_empty() const;
+
+	bool _iter_init(const Variant &p_args);
+	bool _iter_next(const Variant &p_args);
+	Node *_iter_get(const Variant &p_args);
+};

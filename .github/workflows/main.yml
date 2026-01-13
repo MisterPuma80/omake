@@ -37,6 +37,13 @@ jobs:
         with:
           path: blazium/modules/omake
 
+      - name: Make Blazium and Omake frens
+        working-directory: blazium
+        run: |
+          sed -i -e '/class Node : public Object {/{N' \
+                -e '/	GDCLASS(Node, Object);/a \\n	friend class OmakeFind;' \
+                -e '}' scene/main/node.h
+
       - name: Compile Blazium with Module
         working-directory: blazium
         run: |
