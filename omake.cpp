@@ -97,10 +97,6 @@ PackedStringArray Omake::get_groups(const Node *p_node) {
 	return OmakeFind::get_groups(p_node);
 }
 
-int64_t Omake::test_func() {
-	return 69;
-}
-
 void Omake::_bind_methods() {
 	ClassDB::bind_integer_constant("Omake", "", "INT64_MIN", Omake::_INT64_MIN);
 	ClassDB::bind_integer_constant("Omake", "", "INT64_MAX", Omake::_INT64_MAX);
@@ -117,6 +113,4 @@ void Omake::_bind_methods() {
 	ClassDB::bind_static_method("Omake", D_METHOD("find_by_group", "node", "group_name"), &Omake::find_by_group);
 	ClassDB::bind_static_method("Omake", D_METHOD("find_by_groups", "node", "group_names"), &Omake::find_by_groups);
 	ClassDB::bind_static_method("Omake", D_METHOD("get_groups", "node"), &Omake::get_groups);
-
-	ClassDB::bind_static_method("Omake", D_METHOD("test_func"), &Omake::test_func);
 }

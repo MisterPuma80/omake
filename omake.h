@@ -58,6 +58,4 @@ public:
 	static Ref<PackedNodeArray> find_by_group(const Node *p_node, const String &p_group_name);
 	static Ref<PackedNodeArray> find_by_groups(const Node *p_node, const TypedArray<String> &p_group_names);
 	static PackedStringArray get_groups(const Node *p_node);
-
-	static int64_t test_func();
 };

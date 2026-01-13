@@ -58,10 +58,6 @@ TEST_CASE("[Omake] add_clampedi") {
 	CHECK(0 == Omake::add_clampedi(0, INT64_MIN, 0, INT64_MAX)); // Clamp Underflow
 }
 
-TEST_CASE("[Omake] test_func") {
-	CHECK(69 == Omake::test_func());
-}
-
 } //namespace TestOmakeMisc
 
 
