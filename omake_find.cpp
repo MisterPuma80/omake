@@ -55,6 +55,46 @@ Ref<PackedNodeArray> OmakeFind::get_children(const Node *p_node, const bool p_in
 	return nodes;
 }
 
+Ref<PackedNodeArray> OmakeFind::get_children_by_name(const Node *p_node, const StringName p_node_name) {
+	//ERR_THREAD_GUARD_V(nullptr); // FIXME
+
+	int cc;
+	Node *const *from_ptr = _get_children_ptr(p_node, &cc, true);
+
+	Ref<PackedNodeArray> nodes = memnew(PackedNodeArray);
+	nodes->resize(cc);
+	Node **to_ptr = nodes->get_node_ptr()->ptr();
+	int j = 0;
+	for (int i = 0; i < cc; i++) {
+		if (from_ptr[i]->data.name.operator String().match(p_node_name)) {
+			to_ptr[j++] = from_ptr[i];
+		}
+	}
+	nodes->resize(j);
+
+	return nodes;
+}
+
+Ref<PackedNodeArray> OmakeFind::get_children_by_group(const Node *p_node, const StringName p_group_name) {
+	//ERR_THREAD_GUARD_V(nullptr); // FIXME
+
+	int cc;
+	Node *const *from_ptr = _get_children_ptr(p_node, &cc, true);
+
+	Ref<PackedNodeArray> nodes = memnew(PackedNodeArray);
+	nodes->resize(cc);
+	Node **to_ptr = nodes->get_node_ptr()->ptr();
+	int j = 0;
+	for (int i = 0; i < cc; i++) {
+		if (from_ptr[i]->is_in_group(p_group_name)) {
+			to_ptr[j++] = from_ptr[i];
+		}
+	}
+	nodes->resize(j);
+
+	return nodes;
+}
+
 Ref<PackedNodeArray> OmakeFind::find_all(const Node *p_node) {
 	return OmakeFind::find_by(p_node, "*", "", true, false);
 }
