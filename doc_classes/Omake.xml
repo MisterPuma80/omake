@@ -8,21 +8,7 @@
 	</description>
 	<tutorials>
 	</tutorials>
-	<constants>
-		<constant name="INT64_MAX" value="9223372036854775807">
-			Max signed 64 bit int value.
-		</constant>
-		<constant name="INT64_MIN" value="-9223372036854775808">
-			Min signed 64 bit int value.
-		</constant>
-	</constants>
 	<methods>
-		<method name="test_func" qualifiers="static">
-			<return type="int" />
-			<description>
-				Returns 69.
-			</description>
-		</method>
 		<method name="add_clampedi" qualifiers="static">
 			<return type="int" />
 			<param index="0" name="a" type="int" />
@@ -32,12 +18,6 @@
 			<description>
 				Returns a + b, but will return max instead of overflow, or min instead of underflow.
 				By default min is INT64_MIN and max is INT64_MAX.
-			</description>
-		</method>
-		<method name="get_ticks_nsec" qualifiers="static">
-			<return type="int" />
-			<description>
-				Returns the CPU ticks in nanoseconds since the engine started.
 			</description>
 		</method>
 		<method name="find_all" qualifiers="static">
@@ -91,17 +71,17 @@
 			<description>
 			</description>
 		</method>
-		<method name="get_children_by_name" qualifiers="static">
-			<return type="PackedNodeArray" />
-			<param index="0" name="node" type="Node" />
-			<param index="1" name="node_name" type="String" />
-			<description>
-			</description>
-		</method>
 		<method name="get_children_by_group" qualifiers="static">
 			<return type="PackedNodeArray" />
 			<param index="0" name="node" type="Node" />
-			<param index="1" name="group_name" type="String" />
+			<param index="1" name="group_name" type="StringName" />
+			<description>
+			</description>
+		</method>
+		<method name="get_children_by_name" qualifiers="static">
+			<return type="PackedNodeArray" />
+			<param index="0" name="node" type="Node" />
+			<param index="1" name="node_name" type="StringName" />
 			<description>
 			</description>
 		</method>
@@ -111,5 +91,19 @@
 			<description>
 			</description>
 		</method>
+		<method name="get_ticks_nsec" qualifiers="static">
+			<return type="int" />
+			<description>
+				Returns the CPU ticks in nanoseconds since the engine started.
+			</description>
+		</method>
 	</methods>
+	<constants>
+		<constant name="INT64_MIN" value="-9223372036854775808">
+			Min signed 64 bit int value.
+		</constant>
+		<constant name="INT64_MAX" value="9223372036854775807">
+			Max signed 64 bit int value.
+		</constant>
+	</constants>
 </class>
