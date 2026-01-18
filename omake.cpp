@@ -36,9 +36,6 @@
 #include "omake_packed_node_array.h"
 #include <cstdint>
 
-const int64_t Omake::_INT64_MIN = INT64_MIN;
-const int64_t Omake::_INT64_MAX = INT64_MAX;
-
 Omake::Omake() {
 	//print_line("Omake created");
 }
@@ -49,20 +46,6 @@ Omake::~Omake() {
 
 uint64_t Omake::get_ticks_nsec() {
 	return omake_get_ticks_nsec();
-}
-
-int64_t Omake::add_clampedi(int64_t a, int64_t b, int64_t min, int64_t max) {
-	// Will overflow so just return max
-	if (b > 0 && a > max - b) {
-		return max;
-	}
-
-	// Will underflow so just return min
-	if (b < 0 && a < min - b) {
-		return min;
-	}
-
-	return CLAMP(a + b, min, max);
 }
 
 Ref<PackedNodeArray> Omake::get_children(const Node *p_node, const bool p_include_internal) {
@@ -106,11 +89,7 @@ PackedStringArray Omake::get_groups(const Node *p_node) {
 }
 
 void Omake::_bind_methods() {
-	ClassDB::bind_integer_constant("Omake", "", "INT64_MIN", Omake::_INT64_MIN);
-	ClassDB::bind_integer_constant("Omake", "", "INT64_MAX", Omake::_INT64_MAX);
-
 	ClassDB::bind_static_method("Omake", D_METHOD("get_ticks_nsec"), &Omake::get_ticks_nsec);
-	ClassDB::bind_static_method("Omake", D_METHOD("add_clampedi", "a", "b", "min", "max"), &Omake::add_clampedi, DEFVAL(Omake::_INT64_MIN), DEFVAL(Omake::_INT64_MAX));
 
 	ClassDB::bind_static_method("Omake", D_METHOD("get_children", "node", "include_internal"), &Omake::get_children, DEFVAL(true));
 	ClassDB::bind_static_method("Omake", D_METHOD("get_children_by_name", "node", "node_name"), &Omake::get_children_by_name);
