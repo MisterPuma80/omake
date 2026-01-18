@@ -52,7 +52,7 @@ Ref<PackedNodeArray> Omake::get_children(const Node *p_node, const bool p_includ
 	return OmakeFind::get_children(p_node, p_include_internal);
 }
 
-Ref<PackedNodeArray> Omake::get_children_by_name(const Node *p_node, const StringName p_node_name) {
+Ref<PackedNodeArray> Omake::get_children_by_name(const Node *p_node, const String p_node_name) {
 	return OmakeFind::get_children_by_name(p_node, p_node_name);
 }
 
@@ -68,19 +68,19 @@ Ref<PackedNodeArray> Omake::find_by_name(const Node *p_node, const String &p_nod
 	return OmakeFind::find_by_name(p_node, p_node_name);
 }
 
-Ref<PackedNodeArray> Omake::find_by_type(const Node *p_node, const String &p_type_name) {
+Ref<PackedNodeArray> Omake::find_by_type(const Node *p_node, const StringName &p_type_name) {
 	return OmakeFind::find_by_type(p_node, p_type_name);
 }
 
-Ref<PackedNodeArray> Omake::find_by_group(const Node *p_node, const String &p_group_name) {
+Ref<PackedNodeArray> Omake::find_by_group(const Node *p_node, const StringName &p_group_name) {
 	return OmakeFind::find_by_group(p_node, p_group_name);
 }
 
-Ref<PackedNodeArray> Omake::find_by_groups(const Node *p_node, const TypedArray<String> &p_group_names) {
+Ref<PackedNodeArray> Omake::find_by_groups(const Node *p_node, const TypedArray<StringName> &p_group_names) {
 	return OmakeFind::find_by_groups(p_node, p_group_names);
 }
 
-Ref<PackedNodeArray> Omake::find_by(const Node *p_node, const String &p_pattern, const String &p_type, const bool p_recursive, const bool p_owned) {
+Ref<PackedNodeArray> Omake::find_by(const Node *p_node, const String &p_pattern, const StringName &p_type, const bool p_recursive, const bool p_owned) {
 	return OmakeFind::find_by(p_node, p_pattern, p_type, p_recursive, p_owned);
 }
 
