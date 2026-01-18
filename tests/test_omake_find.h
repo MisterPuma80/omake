@@ -256,11 +256,11 @@ TEST_CASE("[OmakeFind] get_children_by_group") {
 	_delete_node_tree(root);
 }
 
-TEST_CASE("[OmakeFind] find_all") {
+TEST_CASE("[OmakeFind] find_children") {
 	const int total_child_nodes = 100;
 	Node *node = _make_node_tree(total_child_nodes, GOOD_SEED);
 
-	Ref<PackedNodeArray> all = Omake::find_all(node);
+	Ref<PackedNodeArray> all = Omake::find_children(node);
 	CHECK(all->size() == total_child_nodes);
 	CHECK(all->get_node(0)->get_name() == "da_node_1");
 	CHECK(all->get_node(1)->get_name() == "da_node_0");

@@ -9,12 +9,6 @@
 	<tutorials>
 	</tutorials>
 	<methods>
-		<method name="find_all" qualifiers="static">
-			<return type="PackedNodeArray" />
-			<param index="0" name="node" type="Node" />
-			<description>
-			</description>
-		</method>
 		<method name="find_by" qualifiers="static">
 			<return type="PackedNodeArray" />
 			<param index="0" name="node" type="Node" />
@@ -50,6 +44,12 @@
 			<return type="PackedNodeArray" />
 			<param index="0" name="node" type="Node" />
 			<param index="1" name="type_name" type="StringName" />
+			<description>
+			</description>
+		</method>
+		<method name="find_children" qualifiers="static">
+			<return type="PackedNodeArray" />
+			<param index="0" name="node" type="Node" />
 			<description>
 			</description>
 		</method>

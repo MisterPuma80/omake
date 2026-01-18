@@ -95,7 +95,7 @@ Ref<PackedNodeArray> OmakeFind::get_children_by_group(const Node *p_node, const 
 	return nodes;
 }
 
-Ref<PackedNodeArray> OmakeFind::find_all(const Node *p_node) {
+Ref<PackedNodeArray> OmakeFind::find_children(const Node *p_node) {
 	return OmakeFind::find_by(p_node, "*", "", true, false);
 }
 
