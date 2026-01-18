@@ -40,14 +40,10 @@ protected:
 	static void _bind_methods();
 
 public:
-	static const int64_t _INT64_MIN;
-	static const int64_t _INT64_MAX;
-
 	Omake();
 	~Omake();
 
 	static uint64_t get_ticks_nsec();
-	static int64_t add_clampedi(int64_t a, int64_t b, int64_t min = _INT64_MIN, int64_t max = _INT64_MAX);
 
 	static Ref<PackedNodeArray> get_children(const Node *p_node, const bool p_include_internal = true);
 	static Ref<PackedNodeArray> get_children_by_name(const Node *p_node, const StringName p_node_name);
