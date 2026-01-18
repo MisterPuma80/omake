@@ -42,8 +42,8 @@ private:
 
 public:
 	static Ref<PackedNodeArray> get_children(const Node *p_node, const bool p_include_internal = true);
-	static Ref<PackedNodeArray> get_children_by_name(const Node *p_node, const String p_node_name);
-	static Ref<PackedNodeArray> get_children_by_group(const Node *p_node, const StringName p_group_name);
+	static Ref<PackedNodeArray> get_children_by_name(const Node *p_node, const String &p_node_name);
+	static Ref<PackedNodeArray> get_children_by_group(const Node *p_node, const StringName &p_group_name);
 
 	static Ref<PackedNodeArray> find_children(const Node *p_node);
 	static Ref<PackedNodeArray> find_by(const Node *p_node, const String &p_pattern, const StringName &p_type, const bool p_recursive = true, const bool p_owned = true);

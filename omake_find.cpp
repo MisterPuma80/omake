@@ -55,7 +55,7 @@ Ref<PackedNodeArray> OmakeFind::get_children(const Node *p_node, const bool p_in
 	return nodes;
 }
 
-Ref<PackedNodeArray> OmakeFind::get_children_by_name(const Node *p_node, const String p_node_name) {
+Ref<PackedNodeArray> OmakeFind::get_children_by_name(const Node *p_node, const String &p_node_name) {
 	//ERR_THREAD_GUARD_V(nullptr); // FIXME
 
 	int cc;
@@ -75,7 +75,7 @@ Ref<PackedNodeArray> OmakeFind::get_children_by_name(const Node *p_node, const S
 	return nodes;
 }
 
-Ref<PackedNodeArray> OmakeFind::get_children_by_group(const Node *p_node, const StringName p_group_name) {
+Ref<PackedNodeArray> OmakeFind::get_children_by_group(const Node *p_node, const StringName &p_group_name) {
 	//ERR_THREAD_GUARD_V(nullptr); // FIXME
 
 	int cc;

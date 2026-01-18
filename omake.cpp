@@ -52,11 +52,11 @@ Ref<PackedNodeArray> Omake::get_children(const Node *p_node, const bool p_includ
 	return OmakeFind::get_children(p_node, p_include_internal);
 }
 
-Ref<PackedNodeArray> Omake::get_children_by_name(const Node *p_node, const String p_node_name) {
+Ref<PackedNodeArray> Omake::get_children_by_name(const Node *p_node, const String &p_node_name) {
 	return OmakeFind::get_children_by_name(p_node, p_node_name);
 }
 
-Ref<PackedNodeArray> Omake::get_children_by_group(const Node *p_node, const StringName p_group_name) {
+Ref<PackedNodeArray> Omake::get_children_by_group(const Node *p_node, const StringName &p_group_name) {
 	return OmakeFind::get_children_by_group(p_node, p_group_name);
 }
 
