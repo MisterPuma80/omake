@@ -103,8 +103,8 @@ Ref<PackedNodeArray> OmakeFind::find_by_group(const Node *p_node, const StringNa
 	Ref<PackedNodeArray> matches = memnew(PackedNodeArray);
 	to_search.push_back((Node *)p_node);
 	while (!to_search.is_empty()) {
-		Node *entry = to_search[0];
-		to_search.remove_at_unordered(0);
+		Node *entry = to_search[to_search.size() - 1];
+		to_search.remove_at(to_search.size() - 1);
 
 		entry->_update_children_cache();
 		Node *const *cptr = entry->data.children_cache.ptr();
@@ -128,8 +128,8 @@ Ref<PackedNodeArray> OmakeFind::find_by_groups(const Node *p_node, const TypedAr
 	LocalVector<Node *> to_search;
 	to_search.push_back((Node *)p_node);
 	while (!to_search.is_empty()) {
-		Node *entry = to_search[0];
-		to_search.remove_at_unordered(0);
+		Node *entry = to_search[to_search.size() - 1];
+		to_search.remove_at(to_search.size() - 1);
 
 		entry->_update_children_cache();
 		Node *const *cptr = entry->data.children_cache.ptr();
@@ -165,8 +165,8 @@ Ref<PackedNodeArray> OmakeFind::find_by(const Node *p_node, const String &p_patt
 	bool is_adding_children = true;
 	while (!to_search.is_empty()) {
 		// Pop the next entry off the search stack
-		Node *entry = to_search[0];
-		to_search.remove_at_unordered(0);
+		Node *entry = to_search[to_search.size() - 1];
+		to_search.remove_at(to_search.size() - 1);
 
 		// Add all the children to the list to search
 		entry->_update_children_cache();
