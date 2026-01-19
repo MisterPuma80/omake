@@ -61,6 +61,7 @@ Node *_make_node_tree(int total_child_nodes, const int seed) {
 		new_node->set_name(vformat("da_node_%d", i));
 		new_node->add_to_group(groups[k]);
 		node->add_child(new_node);
+		new_node->set_owner(root_node);
 		int j = rng->randf_range(0, node->get_child_count());
 		node->move_child(new_node, j);
 
@@ -85,6 +86,7 @@ Node *_make_node_tree_flat(int total_child_nodes, const int seed) {
 		new_node->set_name(vformat("da_node_%d", i));
 		new_node->add_to_group(groups[k]);
 		node->add_child(new_node);
+		new_node->set_owner(root_node);
 		int j = rng->randf_range(0, node->get_child_count());
 		node->move_child(new_node, j);
 		k = k < 2 ? k + 1 : 0;
@@ -94,7 +96,7 @@ Node *_make_node_tree_flat(int total_child_nodes, const int seed) {
 }
 
 void _delete_node_tree(Node *root_tree) {
-	TypedArray<Node> all = root_tree->find_children("*", "", true, false);
+	TypedArray<Node> all = root_tree->find_children("*", "", true, true);
 
 	for (int i = all.size()-1; i >= 0; i--) {
 		//print_line(vformat("!!! memdelete i: \"%d\"", i));
@@ -144,7 +146,7 @@ void _find_tree_with_most_direct_children() {
 		print_line(vformat("i: \"%d\"", i));
 		Node *root = _make_node_tree(total_child_nodes, i);
 
-		TypedArray<Node> children = root->find_children("*", "", true, false);
+		TypedArray<Node> children = root->find_children("*", "", true, true);
 		for (int j = 0; j < children.size(); j++) {
 			const Node* node = Object::cast_to<Node>(children[j]);
 			if (node->get_child_count() > max_count) {
