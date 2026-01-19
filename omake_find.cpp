@@ -124,7 +124,7 @@ Ref<PackedNodeArray> OmakeFind::find_by_group(const Node *p_node, const StringNa
 			to_search.push_back(cptr[i]);
 		}
 
-		if (entry->is_in_group(p_group_name)) {
+		if (entry->is_in_group(p_group_name) && entry != p_node) {
 			matches->push_back(entry);
 		}
 	}
@@ -151,7 +151,7 @@ Ref<PackedNodeArray> OmakeFind::find_by_groups(const Node *p_node, const TypedAr
 
 		const int ncount = p_group_names.size();
 		for (int i = 0; i < ncount; i++) {
-			if (entry->is_in_group(p_group_names[i])) {
+			if (entry->is_in_group(p_group_names[i]) && entry != p_node) {
 				matches->push_back(entry);
 			}
 		}
@@ -217,7 +217,7 @@ Ref<PackedNodeArray> OmakeFind::find_by(const Node *p_node, const String &p_patt
 		}
 
 		// Save it if it matches the pattern and at least one type
-		if (is_pattern_match && (is_type_match || is_script_type_match)) {
+		if (is_pattern_match && (is_type_match || is_script_type_match) && entry != p_node) {
 			matches->push_back(entry);
 		}
 	}
