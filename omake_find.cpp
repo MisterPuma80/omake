@@ -96,15 +96,15 @@ Ref<PackedNodeArray> OmakeFind::get_children_by_group(const Node *p_node, const 
 }
 
 Ref<PackedNodeArray> OmakeFind::find_children(const Node *p_node) {
-	return OmakeFind::find_by(p_node, "*", "", true, false);
+	return OmakeFind::find_by(p_node, "*", "", true, true);
 }
 
 Ref<PackedNodeArray> OmakeFind::find_by_name(const Node *p_node, const String &p_node_name) {
-	return OmakeFind::find_by(p_node, p_node_name, "", true, false);
+	return OmakeFind::find_by(p_node, p_node_name, "", true, true);
 }
 
 Ref<PackedNodeArray> OmakeFind::find_by_type(const Node *p_node, const StringName &p_type_name) {
-	return OmakeFind::find_by(p_node, "*", p_type_name, true, false);
+	return OmakeFind::find_by(p_node, "*", p_type_name, true, true);
 }
 
 Ref<PackedNodeArray> OmakeFind::find_by_group(const Node *p_node, const StringName &p_group_name) {
