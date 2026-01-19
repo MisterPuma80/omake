@@ -264,8 +264,8 @@ TEST_CASE("[OmakeFind] find_children") {
 
 	Ref<PackedNodeArray> all = Omake::find_children(node);
 	CHECK(all->size() == total_child_nodes);
-	CHECK(all->get_node(0)->get_name() == "da_node_1");
-	CHECK(all->get_node(1)->get_name() == "da_node_0");
+	CHECK(all->get_node(0)->get_name() == "da_node_0");
+	CHECK(all->get_node(1)->get_name() == "da_node_1");
 
 	_delete_node_tree(node);
 }
@@ -276,8 +276,8 @@ TEST_CASE("[OmakeFind] find_by_name") {
 
 	Ref<PackedNodeArray> all = Omake::find_by_name(node, "da_node_1?");
 	CHECK(all->size() == 10);
-	CHECK(all->get_node(0)->get_name() == "da_node_11");
-	CHECK(all->get_node(1)->get_name() == "da_node_12");
+	CHECK(all->get_node(0)->get_name() == "da_node_12");
+	CHECK(all->get_node(1)->get_name() == "da_node_13");
 
 	Ref<PackedNodeArray> none = Omake::find_by_name(node, "NotAName");
 	CHECK(none->size() == 0);
@@ -291,8 +291,8 @@ TEST_CASE("[OmakeFind] find_by_type") {
 
 	Ref<PackedNodeArray> all = Omake::find_by_type(node, "Node");
 	CHECK(all->size() == total_child_nodes);
-	CHECK(all->get_node(0)->get_name() == "da_node_1");
-	CHECK(all->get_node(1)->get_name() == "da_node_0");
+	CHECK(all->get_node(0)->get_name() == "da_node_0");
+	CHECK(all->get_node(1)->get_name() == "da_node_1");
 
 	Ref<PackedNodeArray> none = Omake::find_by_type(node, "NotAType");
 	CHECK(none->size() == 0);
