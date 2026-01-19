@@ -55,7 +55,7 @@ Ref<PackedNodeArray> OmakeFind::get_children(const Node *p_node, const bool p_in
 	return nodes;
 }
 
-Ref<PackedNodeArray> OmakeFind::get_children_by_name(const Node *p_node, const StringName p_node_name) {
+Ref<PackedNodeArray> OmakeFind::get_children_by_name(const Node *p_node, const String &p_node_name) {
 	//ERR_THREAD_GUARD_V(nullptr); // FIXME
 
 	int cc;
@@ -75,7 +75,7 @@ Ref<PackedNodeArray> OmakeFind::get_children_by_name(const Node *p_node, const S
 	return nodes;
 }
 
-Ref<PackedNodeArray> OmakeFind::get_children_by_group(const Node *p_node, const StringName p_group_name) {
+Ref<PackedNodeArray> OmakeFind::get_children_by_group(const Node *p_node, const StringName &p_group_name) {
 	//ERR_THREAD_GUARD_V(nullptr); // FIXME
 
 	int cc;
@@ -95,7 +95,7 @@ Ref<PackedNodeArray> OmakeFind::get_children_by_group(const Node *p_node, const 
 	return nodes;
 }
 
-Ref<PackedNodeArray> OmakeFind::find_all(const Node *p_node) {
+Ref<PackedNodeArray> OmakeFind::find_children(const Node *p_node) {
 	return OmakeFind::find_by(p_node, "*", "", true, false);
 }
 
@@ -103,11 +103,11 @@ Ref<PackedNodeArray> OmakeFind::find_by_name(const Node *p_node, const String &p
 	return OmakeFind::find_by(p_node, p_node_name, "", true, false);
 }
 
-Ref<PackedNodeArray> OmakeFind::find_by_type(const Node *p_node, const String &p_type_name) {
+Ref<PackedNodeArray> OmakeFind::find_by_type(const Node *p_node, const StringName &p_type_name) {
 	return OmakeFind::find_by(p_node, "*", p_type_name, true, false);
 }
 
-Ref<PackedNodeArray> OmakeFind::find_by_group(const Node *p_node, const String &p_group_name) {
+Ref<PackedNodeArray> OmakeFind::find_by_group(const Node *p_node, const StringName &p_group_name) {
 	//ERR_THREAD_GUARD_V(TypedArray<Node>()); // FIXME
 
 	LocalVector<Node *> to_search;
@@ -132,7 +132,7 @@ Ref<PackedNodeArray> OmakeFind::find_by_group(const Node *p_node, const String &
 	return matches;
 }
 
-Ref<PackedNodeArray> OmakeFind::find_by_groups(const Node *p_node, const TypedArray<String> &p_group_names) {
+Ref<PackedNodeArray> OmakeFind::find_by_groups(const Node *p_node, const TypedArray<StringName> &p_group_names) {
 	//ERR_THREAD_GUARD_V(TypedArray<Node>()); // FIXME
 
 	Ref<PackedNodeArray> matches = memnew(PackedNodeArray);
@@ -160,7 +160,7 @@ Ref<PackedNodeArray> OmakeFind::find_by_groups(const Node *p_node, const TypedAr
 	return matches;
 }
 
-Ref<PackedNodeArray> OmakeFind::find_by(const Node *p_node, const String &p_pattern, const String &p_type, const bool p_recursive, const bool p_owned) {
+Ref<PackedNodeArray> OmakeFind::find_by(const Node *p_node, const String &p_pattern, const StringName &p_type, const bool p_recursive, const bool p_owned) {
 	//ERR_THREAD_GUARD; // FIXME
 	//ERR_FAIL_COND(p_pattern.is_empty() && p_type.is_empty());
 
