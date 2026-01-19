@@ -47,10 +47,7 @@ Ref<PackedNodeArray> OmakeFind::get_children(const Node *p_node, const bool p_in
 	Ref<PackedNodeArray> nodes = memnew(PackedNodeArray);
 	nodes->resize(cc);
 	Node **to_ptr = nodes->get_node_ptr()->ptr();
-	for (int i = 0; i < cc; i++) {
-		to_ptr[i] = from_ptr[i];
-	}
-	//memcpy(to_ptr, from_ptr, cc * sizeof(Node *));
+	memcpy(to_ptr, from_ptr, cc * sizeof(Node *));
 
 	return nodes;
 }
@@ -61,18 +58,14 @@ Ref<PackedNodeArray> OmakeFind::get_children_by_name(const Node *p_node, const S
 	int cc;
 	Node *const *from_ptr = _get_children_ptr(p_node, &cc, true);
 
-	Ref<PackedNodeArray> nodes = memnew(PackedNodeArray);
-	nodes->resize(cc);
-	Node **to_ptr = nodes->get_node_ptr()->ptr();
-	int j = 0;
+	Ref<PackedNodeArray> matches = memnew(PackedNodeArray);
 	for (int i = 0; i < cc; i++) {
 		if (from_ptr[i]->data.name.operator String().match(p_node_name)) {
-			to_ptr[j++] = from_ptr[i];
+			matches->push_back(from_ptr[i]);
 		}
 	}
-	nodes->resize(j);
 
-	return nodes;
+	return matches;
 }
 
 Ref<PackedNodeArray> OmakeFind::get_children_by_group(const Node *p_node, const StringName &p_group_name) {
@@ -81,18 +74,14 @@ Ref<PackedNodeArray> OmakeFind::get_children_by_group(const Node *p_node, const 
 	int cc;
 	Node *const *from_ptr = _get_children_ptr(p_node, &cc, true);
 
-	Ref<PackedNodeArray> nodes = memnew(PackedNodeArray);
-	nodes->resize(cc);
-	Node **to_ptr = nodes->get_node_ptr()->ptr();
-	int j = 0;
+	Ref<PackedNodeArray> matches = memnew(PackedNodeArray);
 	for (int i = 0; i < cc; i++) {
 		if (from_ptr[i]->is_in_group(p_group_name)) {
-			to_ptr[j++] = from_ptr[i];
+			matches->push_back(from_ptr[i]);
 		}
 	}
-	nodes->resize(j);
 
-	return nodes;
+	return matches;
 }
 
 Ref<PackedNodeArray> OmakeFind::find_children(const Node *p_node) {
