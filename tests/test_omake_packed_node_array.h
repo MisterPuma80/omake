@@ -30,27 +30,10 @@
 #pragma once
 
 #include "tests/test_macros.h"
-#include "core/variant/variant_utility.h"
+#include "modules/omake/tests/test_omake_helpers.h"
 #include "modules/omake/omake.h"
 
 namespace TestOmakePackedNodeArray {
-
-void _delete_node_tree(Node *root_tree) {
-	if (root_tree == nullptr || !VariantUtilityFunctions::is_instance_valid(root_tree)) return;
-
-	TypedArray<Node> all = root_tree->find_children("*", "", true, true);
-
-	for (int i = all.size()-1; i >= 0; i--) {
-		//print_line(vformat("!!! memdelete i: \"%d\"", i));
-		Node *n = Object::cast_to<Node>(all[i]);
-		if (n != nullptr) {
-			memdelete(n);
-			all[i] = Variant(); // FIXME: Isn't there a better way to do Variant null?
-		}
-	}
-	all.clear();
-	memdelete(root_tree);
-}
 
 TEST_CASE("[Omake] test_packed_node_array") {
 	Node *node = memnew(Node);

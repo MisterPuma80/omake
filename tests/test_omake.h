@@ -30,6 +30,7 @@
 #pragma once
 
 #include "tests/test_macros.h"
+#include "modules/omake/tests/test_omake_helpers.h"
 #include "modules/omake/omake.h"
 
 namespace TestOmakeMisc {
