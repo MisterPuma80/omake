@@ -134,7 +134,7 @@ TypedArray<Node> PackedNodeArray::to_array() const {
 }
 
 bool PackedNodeArray::is_empty() const {
-	return nodes.size() > 0;
+	return nodes.size() <= 0;
 }
 
 bool PackedNodeArray::_iter_init(const Variant &p_args) {
