@@ -59,6 +59,14 @@ public:
 	void resize(int p_new_size);
 	void clear();
 
+	Node &operator[](int p_index) {
+		return *(nodes[p_index]);
+	}
+
+	const Node &operator[](int p_index) const {
+		return *(nodes[p_index]);
+	}
+
 	Node *front() const;
 	Node *back() const;
 	Node *pick_random() const;
