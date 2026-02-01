@@ -97,6 +97,34 @@ TEST_CASE("[Omake] PackedNodeArray test_iteration") {
 		CHECK(count == 3);
 	}
 
+	// Iteration with operator index
+	{
+		int count = 0;
+		for (int i = 0; i < nodes->size(); i++) {
+			Node &node_a = nodes->operator[](i);
+			CHECK(node_a.get_name().operator String().match("node_*"));
+
+			Node &node_b = (*(*nodes))[i];
+			CHECK(node_b.get_name().operator String().match("node_*"));
+			count++;
+		}
+		CHECK(count == 3);
+	}
+
+	// Iteration with const operator index
+	{
+		int count = 0;
+		for (int i = 0; i < nodes->size(); i++) {
+			const Node &node_a = nodes->operator[](i);
+			CHECK(node_a.get_name().operator String().match("node_*"));
+
+			const Node &node_b = (*(*nodes))[i];
+			CHECK(node_b.get_name().operator String().match("node_*"));
+			count++;
+		}
+		CHECK(count == 3);
+	}
+
 	// Iteration with ptr
 	{
 		Node **ptr = nodes->ptr();
