@@ -43,6 +43,14 @@ LocalVector<Node *> *PackedNodeArray::get_node_ptr() {
 	return &nodes;
 }
 
+const Node **PackedNodeArray::ptrw() const {
+	return (const Node **) nodes.ptr();
+}
+
+Node **PackedNodeArray::ptr() {
+	return nodes.ptr();
+}
+
 void PackedNodeArray::push_back(Node *p_node) {
 	//	fprintf(stderr, "!!!! called PackedNodeArray::append\n"); fflush(stderr);
 	nodes.push_back(p_node);

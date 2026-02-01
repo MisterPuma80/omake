@@ -49,6 +49,8 @@ public:
 	~PackedNodeArray();
 
 	LocalVector<Node *> *get_node_ptr();
+	const Node **ptrw() const;
+	Node **ptr();
 	void push_back(Node *p_node);
 	_FORCE_INLINE_ void append(Node *p_node);
 	Node *get_node(int p_index) const;
@@ -68,4 +70,42 @@ public:
 	bool _iter_init(const Variant &p_args);
 	bool _iter_next(const Variant &p_args);
 	Node *_iter_get(const Variant &p_args);
+
+	struct Iterator {
+		_FORCE_INLINE_ Node* &operator*() const { return *elem_ptr; }
+		_FORCE_INLINE_ Node* *operator->() const { return elem_ptr; }
+		_FORCE_INLINE_ Iterator &operator++() { elem_ptr++; return *this; }
+		_FORCE_INLINE_ Iterator &operator--() { elem_ptr--; return *this; }
+		_FORCE_INLINE_ bool operator==(const Iterator &b) const { return elem_ptr == b.elem_ptr; }
+		_FORCE_INLINE_ bool operator!=(const Iterator &b) const { return elem_ptr != b.elem_ptr; }
+
+		Iterator(Node* *p_ptr) { elem_ptr = p_ptr; }
+		Iterator() {}
+		Iterator(const Iterator &p_it) { elem_ptr = p_it.elem_ptr; }
+
+	private:
+		Node* *elem_ptr = nullptr;
+	};
+
+	struct ConstIterator {
+		_FORCE_INLINE_ const Node* &operator*() const { return *elem_ptr; }
+		_FORCE_INLINE_ const Node* *operator->() const { return elem_ptr; }
+		_FORCE_INLINE_ ConstIterator &operator++() { elem_ptr++; return *this; }
+		_FORCE_INLINE_ ConstIterator &operator--() { elem_ptr--; return *this; }
+		_FORCE_INLINE_ bool operator==(const ConstIterator &b) const { return elem_ptr == b.elem_ptr; }
+		_FORCE_INLINE_ bool operator!=(const ConstIterator &b) const { return elem_ptr != b.elem_ptr; }
+
+		ConstIterator(const Node* *p_ptr) { elem_ptr = p_ptr; }
+		ConstIterator() {}
+		ConstIterator(const ConstIterator &p_it) { elem_ptr = p_it.elem_ptr; }
+
+	private:
+		const Node* *elem_ptr = nullptr;
+	};
+
+	_FORCE_INLINE_ Iterator begin() { return Iterator(ptr()); }
+	_FORCE_INLINE_ Iterator end() { return Iterator(ptr() + size()); }
+
+	_FORCE_INLINE_ ConstIterator begin() const { return ConstIterator(ptrw()); }
+	_FORCE_INLINE_ ConstIterator end() const { return ConstIterator(ptrw() + size()); }
 };
