@@ -74,24 +74,22 @@ TEST_CASE("[Omake] PackedNodeArray test_packed_node_array") {
 
 TEST_CASE("[Omake] PackedNodeArray test_iteration") {
 	// Create test nodes
-	PackedNodeArray *nodes_ptr = memnew(PackedNodeArray);
-	Ref<PackedNodeArray> nodes = nodes_ptr;
+	Ref<PackedNodeArray> nodes = memnew(PackedNodeArray);
+	const PackedNodeArray& const_nodes = *reinterpret_cast<const PackedNodeArray*>(*nodes);
 	Dictionary all_nodes;
-	for (const String &n : { "a", "b", "c" }) {
+	for (int i = 0; i < 3; i++) {
 		Node *node = memnew(Node);
-		node->set_name(vformat("node_%s", n));
+		node->set_name(vformat("node_%d", i));
 		all_nodes[node->get_name()] = node;
 		nodes->push_back(node);
 	}
-	PackedNodeArray *ptr_nodes = *nodes;
-	const PackedNodeArray& const_ref_nodes = *reinterpret_cast<const PackedNodeArray*>(ptr_nodes);
 
 	// Iteration with get_node
 	{
 		int count = 0;
 		for (int i = 0; i < nodes->size(); i++) {
 			Node *node = nodes->get_node(i);
-			CHECK(node->get_name().operator String().match("node_*"));
+			CHECK(node->get_name().operator String().match(vformat("node_%d", i)));
 			count++;
 		}
 		CHECK(count == 3);
@@ -102,10 +100,10 @@ TEST_CASE("[Omake] PackedNodeArray test_iteration") {
 		int count = 0;
 		for (int i = 0; i < nodes->size(); i++) {
 			Node &node_a = nodes->operator[](i);
-			CHECK(node_a.get_name().operator String().match("node_*"));
+			CHECK(node_a.get_name().operator String().match(vformat("node_%d", i)));
 
 			Node &node_b = (*(*nodes))[i];
-			CHECK(node_b.get_name().operator String().match("node_*"));
+			CHECK(node_b.get_name().operator String().match(vformat("node_%d", i)));
 			count++;
 		}
 		CHECK(count == 3);
@@ -116,10 +114,10 @@ TEST_CASE("[Omake] PackedNodeArray test_iteration") {
 		int count = 0;
 		for (int i = 0; i < nodes->size(); i++) {
 			const Node &node_a = nodes->operator[](i);
-			CHECK(node_a.get_name().operator String().match("node_*"));
+			CHECK(node_a.get_name().operator String().match(vformat("node_%d", i)));
 
 			const Node &node_b = (*(*nodes))[i];
-			CHECK(node_b.get_name().operator String().match("node_*"));
+			CHECK(node_b.get_name().operator String().match(vformat("node_%d", i)));
 			count++;
 		}
 		CHECK(count == 3);
@@ -128,28 +126,28 @@ TEST_CASE("[Omake] PackedNodeArray test_iteration") {
 	// Iteration with ptr
 	{
 		Node **ptr = nodes->ptr();
-		CHECK(ptr[0]->get_name() == "node_a");
+		CHECK(ptr[0]->get_name() == "node_0");
 		ptr++;
-		CHECK(ptr[0]->get_name() == "node_b");
+		CHECK(ptr[0]->get_name() == "node_1");
 		ptr++;
-		CHECK(ptr[0]->get_name() == "node_c");
+		CHECK(ptr[0]->get_name() == "node_2");
 	}
 
 	// Iteration with begin and end
 	{
 		PackedNodeArray::Iterator E = nodes->begin();
 		CHECK(*E != nullptr);
-		CHECK((*E)->get_name() == "node_a");
+		CHECK((*E)->get_name() == "node_0");
 		CHECK(E != nodes->end());
 
 		++E;
 		CHECK(*E != nullptr);
-		CHECK((*E)->get_name() == "node_b");
+		CHECK((*E)->get_name() == "node_1");
 		CHECK(E != nodes->end());
 
 		++E;
 		CHECK(*E != nullptr);
-		CHECK((*E)->get_name() == "node_c");
+		CHECK((*E)->get_name() == "node_2");
 		CHECK(E != nodes->end());
 
 		++E;
@@ -162,7 +160,7 @@ TEST_CASE("[Omake] PackedNodeArray test_iteration") {
 		int count = 0;
 		for (PackedNodeArray::Iterator E = nodes->begin(); E != nodes->end(); ++E) {
 			Node *node = *E;
-			CHECK(node->get_name().operator String().match("node_*"));
+			CHECK(node->get_name().operator String().match(vformat("node_%d", count)));
 			count++;
 		}
 		CHECK(count == 3);
@@ -171,9 +169,9 @@ TEST_CASE("[Omake] PackedNodeArray test_iteration") {
 	// ConstIterator
 	{
 		int count = 0;
-		for (PackedNodeArray::ConstIterator E = const_ref_nodes.begin(); E != const_ref_nodes.end(); ++E) {
+		for (PackedNodeArray::ConstIterator E = const_nodes.begin(); E != const_nodes.end(); ++E) {
 			const Node *node = *E;
-			CHECK(node->get_name().operator String().match("node_*"));
+			CHECK(node->get_name().operator String().match(vformat("node_%d", count)));
 			count++;
 		}
 		CHECK(count == 3);
@@ -182,8 +180,8 @@ TEST_CASE("[Omake] PackedNodeArray test_iteration") {
 	// Iterate automatically using range begin and end
 	{
 		int count = 0;
-		for (const Node *node : const_ref_nodes) {
-			CHECK(node->get_name().operator String().match("node_*"));
+		for (const Node *node : const_nodes) {
+			CHECK(node->get_name().operator String().match(vformat("node_%d", count)));
 			count++;
 		}
 		CHECK(count == 3);
@@ -194,7 +192,7 @@ TEST_CASE("[Omake] PackedNodeArray test_iteration") {
 	{
 		int count = 0;
 		for (const Node &node : nodes) {
-			CHECK(node.get_name().operator String().match("node_*"));
+			CHECK(node.get_name().operator String().match(vformat("node_%d", count)));
 			count++;
 		}
 		CHECK(count == 3);
