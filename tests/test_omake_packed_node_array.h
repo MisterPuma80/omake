@@ -200,8 +200,8 @@ TEST_CASE("[Omake] PackedNodeArray test_iteration") {
 	*/
 
 	// Cleanup nodes
-	for (const auto &entry : all_nodes) {
-		Node *node = Object::cast_to<Node>(entry.value);
+	for (const String name : all_nodes.keys()) {
+		Node *node = Object::cast_to<Node>(all_nodes[name]);
 		_delete_node_tree(node);
 	}
 }
