@@ -9,7 +9,13 @@
 	<tutorials>
 	</tutorials>
 	<methods>
-		<method name="find_by" qualifiers="static">
+		<method name="find_children" qualifiers="static">
+			<return type="PackedNodeArray" />
+			<param index="0" name="node" type="Node" />
+			<description>
+			</description>
+		</method>
+		<method name="find_children_by" qualifiers="static">
 			<return type="PackedNodeArray" />
 			<param index="0" name="node" type="Node" />
 			<param index="1" name="pattern" type="String" />
@@ -19,37 +25,31 @@
 			<description>
 			</description>
 		</method>
-		<method name="find_by_group" qualifiers="static">
+		<method name="find_children_by_group" qualifiers="static">
 			<return type="PackedNodeArray" />
 			<param index="0" name="node" type="Node" />
 			<param index="1" name="group_name" type="StringName" />
 			<description>
 			</description>
 		</method>
-		<method name="find_by_groups" qualifiers="static">
+		<method name="find_children_by_groups" qualifiers="static">
 			<return type="PackedNodeArray" />
 			<param index="0" name="node" type="Node" />
 			<param index="1" name="group_names" type="StringName[]" />
 			<description>
 			</description>
 		</method>
-		<method name="find_by_name" qualifiers="static">
+		<method name="find_children_by_name" qualifiers="static">
 			<return type="PackedNodeArray" />
 			<param index="0" name="node" type="Node" />
 			<param index="1" name="node_name" type="String" />
 			<description>
 			</description>
 		</method>
-		<method name="find_by_type" qualifiers="static">
+		<method name="find_children_by_type" qualifiers="static">
 			<return type="PackedNodeArray" />
 			<param index="0" name="node" type="Node" />
 			<param index="1" name="type_name" type="StringName" />
-			<description>
-			</description>
-		</method>
-		<method name="find_children" qualifiers="static">
-			<return type="PackedNodeArray" />
-			<param index="0" name="node" type="Node" />
 			<description>
 			</description>
 		</method>
