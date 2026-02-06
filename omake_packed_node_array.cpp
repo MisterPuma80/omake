@@ -172,7 +172,8 @@ void PackedNodeArray::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("get_node", "index"), &PackedNodeArray::get_node);
 	ClassDB::bind_method(D_METHOD("set_node", "index", "node"), &PackedNodeArray::set_node);
 	ClassDB::bind_method(D_METHOD("size"), &PackedNodeArray::size);
-	//ClassDB::bind_method(D_METHOD("clear"), &PackedNodeArray::clear);
+	ClassDB::bind_method(D_METHOD("resize", "new_size"), &PackedNodeArray::resize);
+	ClassDB::bind_method(D_METHOD("clear"), &PackedNodeArray::clear);
 
 	ClassDB::bind_method(D_METHOD("front"), &PackedNodeArray::front);
 	ClassDB::bind_method(D_METHOD("back"), &PackedNodeArray::back);
