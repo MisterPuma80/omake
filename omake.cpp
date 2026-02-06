@@ -52,8 +52,8 @@ Ref<PackedNodeArray> Omake::get_children(const Node *p_node, const bool p_includ
 	return OmakeFind::get_children(p_node, p_include_internal);
 }
 
-Ref<PackedNodeArray> Omake::get_children_by_name(const Node *p_node, const String &p_node_name) {
-	return OmakeFind::get_children_by_name(p_node, p_node_name);
+Ref<PackedNodeArray> Omake::get_children_by_name(const Node *p_node, const String &p_pattern) {
+	return OmakeFind::get_children_by_name(p_node, p_pattern);
 }
 
 Ref<PackedNodeArray> Omake::get_children_by_group(const Node *p_node, const StringName &p_group_name) {
@@ -64,8 +64,8 @@ Ref<PackedNodeArray> Omake::find_children(const Node *p_node) {
 	return OmakeFind::find_children(p_node);
 }
 
-Ref<PackedNodeArray> Omake::find_children_by_name(const Node *p_node, const String &p_node_name) {
-	return OmakeFind::find_children_by_name(p_node, p_node_name);
+Ref<PackedNodeArray> Omake::find_children_by_name(const Node *p_node, const String &p_pattern) {
+	return OmakeFind::find_children_by_name(p_node, p_pattern);
 }
 
 Ref<PackedNodeArray> Omake::find_children_by_type(const Node *p_node, const StringName &p_type_name) {
@@ -92,12 +92,12 @@ void Omake::_bind_methods() {
 	ClassDB::bind_static_method("Omake", D_METHOD("get_ticks_nsec"), &Omake::get_ticks_nsec);
 
 	ClassDB::bind_static_method("Omake", D_METHOD("get_children", "node", "include_internal"), &Omake::get_children, DEFVAL(true));
-	ClassDB::bind_static_method("Omake", D_METHOD("get_children_by_name", "node", "node_name"), &Omake::get_children_by_name);
+	ClassDB::bind_static_method("Omake", D_METHOD("get_children_by_name", "node", "pattern"), &Omake::get_children_by_name);
 	ClassDB::bind_static_method("Omake", D_METHOD("get_children_by_group", "node", "group_name"), &Omake::get_children_by_group);
 
 	ClassDB::bind_static_method("Omake", D_METHOD("find_children", "node"), &Omake::find_children);
 	ClassDB::bind_static_method("Omake", D_METHOD("find_children_by", "node", "pattern", "type", "recursive", "owned"), &Omake::find_children_by, DEFVAL(""), DEFVAL(true), DEFVAL(true));
-	ClassDB::bind_static_method("Omake", D_METHOD("find_children_by_name", "node", "node_name"), &Omake::find_children_by_name);
+	ClassDB::bind_static_method("Omake", D_METHOD("find_children_by_name", "node", "pattern"), &Omake::find_children_by_name);
 	ClassDB::bind_static_method("Omake", D_METHOD("find_children_by_type", "node", "type_name"), &Omake::find_children_by_type);
 	ClassDB::bind_static_method("Omake", D_METHOD("find_children_by_group", "node", "group_name"), &Omake::find_children_by_group);
 	ClassDB::bind_static_method("Omake", D_METHOD("find_children_by_groups", "node", "group_names"), &Omake::find_children_by_groups);

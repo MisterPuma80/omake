@@ -42,7 +42,7 @@
 		<method name="find_children_by_name" qualifiers="static">
 			<return type="PackedNodeArray" />
 			<param index="0" name="node" type="Node" />
-			<param index="1" name="node_name" type="String" />
+			<param index="1" name="pattern" type="String" />
 			<description>
 			</description>
 		</method>
@@ -70,7 +70,7 @@
 		<method name="get_children_by_name" qualifiers="static">
 			<return type="PackedNodeArray" />
 			<param index="0" name="node" type="Node" />
-			<param index="1" name="node_name" type="String" />
+			<param index="1" name="pattern" type="String" />
 			<description>
 			</description>
 		</method>
