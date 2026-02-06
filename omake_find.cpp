@@ -52,7 +52,7 @@ Ref<PackedNodeArray> OmakeFind::get_children(const Node *p_node, const bool p_in
 	return nodes;
 }
 
-Ref<PackedNodeArray> OmakeFind::get_children_by_name(const Node *p_node, const String &p_node_name) {
+Ref<PackedNodeArray> OmakeFind::get_children_by_name(const Node *p_node, const String &p_pattern) {
 	//ERR_THREAD_GUARD_V(nullptr); // FIXME
 
 	int cc;
@@ -60,7 +60,7 @@ Ref<PackedNodeArray> OmakeFind::get_children_by_name(const Node *p_node, const S
 
 	Ref<PackedNodeArray> matches = memnew(PackedNodeArray);
 	for (int i = 0; i < cc; i++) {
-		if (from_ptr[i]->data.name.operator String().match(p_node_name)) {
+		if (from_ptr[i]->data.name.operator String().match(p_pattern)) {
 			matches->push_back(from_ptr[i]);
 		}
 	}
@@ -88,8 +88,8 @@ Ref<PackedNodeArray> OmakeFind::find_children(const Node *p_node) {
 	return OmakeFind::find_children_by(p_node, "*", "", true, true);
 }
 
-Ref<PackedNodeArray> OmakeFind::find_children_by_name(const Node *p_node, const String &p_node_name) {
-	return OmakeFind::find_children_by(p_node, p_node_name, "", true, true);
+Ref<PackedNodeArray> OmakeFind::find_children_by_name(const Node *p_node, const String &p_pattern) {
+	return OmakeFind::find_children_by(p_node, p_pattern, "", true, true);
 }
 
 Ref<PackedNodeArray> OmakeFind::find_children_by_type(const Node *p_node, const StringName &p_type_name) {
