@@ -77,7 +77,11 @@ int PackedNodeArray::size() const {
 }
 
 void PackedNodeArray::resize(int p_new_size) {
+	int prev_size = nodes.size();
 	nodes.resize(p_new_size);
+	for (int i = prev_size; i < p_new_size; i++) {
+		nodes[i] = nullptr;
+	}
 }
 
 void PackedNodeArray::clear() {
