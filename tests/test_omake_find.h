@@ -136,47 +136,47 @@ TEST_CASE("[OmakeFind] find_children") {
 	_delete_node_tree(node);
 }
 
-TEST_CASE("[OmakeFind] find_by_name") {
+TEST_CASE("[OmakeFind] find_children_by_name") {
 	const int total_child_nodes = 100;
 	Node *node = _make_node_tree(total_child_nodes, GOOD_SEED);
 
-	Ref<PackedNodeArray> all = Omake::find_by_name(node, "da_node_1?");
+	Ref<PackedNodeArray> all = Omake::find_children_by_name(node, "da_node_1?");
 	CHECK(all->size() == 10);
 	CHECK(all->get_node(0)->get_name() == "da_node_12");
 	CHECK(all->get_node(1)->get_name() == "da_node_13");
 
-	Ref<PackedNodeArray> none = Omake::find_by_name(node, "NotAName");
+	Ref<PackedNodeArray> none = Omake::find_children_by_name(node, "NotAName");
 	CHECK(none->size() == 0);
 
 	_delete_node_tree(node);
 }
 
-TEST_CASE("[OmakeFind] find_by_type") {
+TEST_CASE("[OmakeFind] find_children_by_type") {
 	const int total_child_nodes = 100;
 	Node *node = _make_node_tree(total_child_nodes, GOOD_SEED);
 
-	Ref<PackedNodeArray> all = Omake::find_by_type(node, "Node");
+	Ref<PackedNodeArray> all = Omake::find_children_by_type(node, "Node");
 	CHECK(all->size() == total_child_nodes);
 	CHECK(all->get_node(0)->get_name() == "da_node_0");
 	CHECK(all->get_node(1)->get_name() == "da_node_1");
 
-	Ref<PackedNodeArray> none = Omake::find_by_type(node, "NotAType");
+	Ref<PackedNodeArray> none = Omake::find_children_by_type(node, "NotAType");
 	CHECK(none->size() == 0);
 
 	_delete_node_tree(node);
 }
 
-TEST_CASE("[OmakeFind] find_by_group") {
+TEST_CASE("[OmakeFind] find_children_by_group") {
 	const int total_child_nodes = 100;
 	Node *node = _make_node_tree(total_child_nodes, GOOD_SEED);
 	//_print_node_tree(node);
 
-	Ref<PackedNodeArray> all = Omake::find_by_group(node, "bird");
+	Ref<PackedNodeArray> all = Omake::find_children_by_group(node, "bird");
 	CHECK(all->size() == 34);
 	CHECK(all->get_node(0)->get_name() == "da_node_0");
 	CHECK(all->get_node(1)->get_name() == "da_node_3");
 
-	Ref<PackedNodeArray> none = Omake::find_by_group(node, "NotAGroup");
+	Ref<PackedNodeArray> none = Omake::find_children_by_group(node, "NotAGroup");
 	CHECK(none->size() == 0);
 
 	_delete_node_tree(node);
