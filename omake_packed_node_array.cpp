@@ -43,12 +43,12 @@ LocalVector<Node *> *PackedNodeArray::get_node_ptr() {
 	return &nodes;
 }
 
-const Node **PackedNodeArray::ptrw() const {
-	return (const Node **) nodes.ptr();
+Node **PackedNodeArray::ptrw() {
+	return nodes.ptr();
 }
 
-Node **PackedNodeArray::ptr() const {
-	return nodes.ptr();
+const Node **PackedNodeArray::ptr() const {
+	return (const Node **) nodes.ptr();
 }
 
 void PackedNodeArray::push_back(Node *p_node) {
@@ -87,9 +87,9 @@ void PackedNodeArray::append_packed_node_array(const PackedNodeArray &p_array) {
 	nodes.resize(tc + fc);
 
 	Node **to_ptr = nodes.ptr();
-	Node **from_ptr = p_array.ptr();
+	const Node **from_ptr = p_array.ptr();
 	for (int i = 0; i < fc; i++) {
-		to_ptr[idx++] = from_ptr[i];
+		to_ptr[idx++] = (Node *) from_ptr[i];
 	}
 }
 
