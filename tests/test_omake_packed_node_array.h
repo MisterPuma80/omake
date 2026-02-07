@@ -125,7 +125,7 @@ TEST_CASE("[Omake] PackedNodeArray test_iteration") {
 
 	// Iteration with ptr
 	{
-		Node **ptr = nodes->ptr();
+		Node **ptr = nodes->ptrw();
 		CHECK(ptr[0]->get_name() == "node_0");
 		ptr++;
 		CHECK(ptr[0]->get_name() == "node_1");

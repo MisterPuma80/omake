@@ -49,8 +49,8 @@ public:
 	~PackedNodeArray();
 
 	LocalVector<Node *> *get_node_ptr();
-	const Node **ptrw() const;
-	Node **ptr() const;
+	Node **ptrw();
+	const Node **ptr() const;
 	void push_back(Node *p_node);
 	_FORCE_INLINE_ void append(Node *p_node);
 	void append_typed_array(const TypedArray<Node> &p_array);
@@ -113,9 +113,9 @@ public:
 		const Node* *elem_ptr = nullptr;
 	};
 
-	_FORCE_INLINE_ Iterator begin() { return Iterator(ptr()); }
-	_FORCE_INLINE_ Iterator end() { return Iterator(ptr() + size()); }
+	_FORCE_INLINE_ Iterator begin() { return Iterator(ptrw()); }
+	_FORCE_INLINE_ Iterator end() { return Iterator(ptrw() + size()); }
 
-	_FORCE_INLINE_ ConstIterator begin() const { return ConstIterator(ptrw()); }
-	_FORCE_INLINE_ ConstIterator end() const { return ConstIterator(ptrw() + size()); }
+	_FORCE_INLINE_ ConstIterator begin() const { return ConstIterator(ptr()); }
+	_FORCE_INLINE_ ConstIterator end() const { return ConstIterator(ptr() + size()); }
 };
