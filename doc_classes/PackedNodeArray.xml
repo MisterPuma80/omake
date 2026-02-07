@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="PackedNodeArray" inherits="RefCounted" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../doc/class.xsd">
+	<brief_description>
+	</brief_description>
+	<description>
+	</description>
+	<tutorials>
+	</tutorials>
+	<methods>
+		<method name="append">
+			<return type="void" />
+			<param index="0" name="node" type="Node" />
+			<description>
+			</description>
+		</method>
+		<method name="append_typed_array">
+			<return type="void" />
+			<param index="0" name="array" type="Node[]" />
+			<description>
+			</description>
+		</method>
+		<method name="back" qualifiers="const">
+			<return type="Node" />
+			<description>
+			</description>
+		</method>
+		<method name="clear">
+			<return type="void" />
+			<description>
+			</description>
+		</method>
+		<method name="find" qualifiers="const">
+			<return type="int" />
+			<param index="0" name="node" type="Node" />
+			<param index="1" name="from" type="int" />
+			<description>
+			</description>
+		</method>
+		<method name="front" qualifiers="const">
+			<return type="Node" />
+			<description>
+			</description>
+		</method>
+		<method name="get_node" qualifiers="const">
+			<return type="Node" />
+			<param index="0" name="index" type="int" />
+			<description>
+			</description>
+		</method>
+		<method name="has" qualifiers="const">
+			<return type="bool" />
+			<param index="0" name="node" type="Node" />
+			<description>
+			</description>
+		</method>
+		<method name="is_empty" qualifiers="const">
+			<return type="bool" />
+			<description>
+			</description>
+		</method>
+		<method name="pick_random" qualifiers="const">
+			<return type="Node" />
+			<description>
+			</description>
+		</method>
+		<method name="push_back">
+			<return type="void" />
+			<param index="0" name="node" type="Node" />
+			<description>
+			</description>
+		</method>
+		<method name="resize">
+			<return type="void" />
+			<param index="0" name="new_size" type="int" />
+			<description>
+			</description>
+		</method>
+		<method name="set_node">
+			<return type="void" />
+			<param index="0" name="index" type="int" />
+			<param index="1" name="node" type="Node" />
+			<description>
+			</description>
+		</method>
+		<method name="size" qualifiers="const">
+			<return type="int" />
+			<description>
+			</description>
+		</method>
+		<method name="to_array" qualifiers="const">
+			<return type="Node[]" />
+			<description>
+			</description>
+		</method>
+	</methods>
+</class>
