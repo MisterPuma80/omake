@@ -7,7 +7,10 @@ def configure(env):
 
 
 def get_doc_classes():
-    return ["Omake"]
+    return [
+        "Omake",
+        "PackedNodeArray"
+    ]
 
 
 def get_doc_path():
