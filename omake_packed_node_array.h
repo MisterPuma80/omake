@@ -50,9 +50,11 @@ public:
 
 	LocalVector<Node *> *get_node_ptr();
 	const Node **ptrw() const;
-	Node **ptr();
+	Node **ptr() const;
 	void push_back(Node *p_node);
 	_FORCE_INLINE_ void append(Node *p_node);
+	void append_typed_array(const TypedArray<Node> &p_array);
+	void append_packed_node_array(const PackedNodeArray &p_array);
 	Node *get_node(int p_index) const;
 	void set_node(int p_index, Node *p_node);
 	int size() const;
