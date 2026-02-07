@@ -47,7 +47,7 @@ const Node **PackedNodeArray::ptrw() const {
 	return (const Node **) nodes.ptr();
 }
 
-Node **PackedNodeArray::ptr() {
+Node **PackedNodeArray::ptr() const {
 	return nodes.ptr();
 }
 
@@ -58,6 +58,39 @@ void PackedNodeArray::push_back(Node *p_node) {
 
 void PackedNodeArray::append(Node *p_node) {
 	this->push_back(p_node);
+}
+
+void PackedNodeArray::append_typed_array(const TypedArray<Node> &p_array) {
+	const int fc = p_array.size();
+	const int tc = nodes.size();
+	if (fc == 0) {
+		return;
+	}
+
+	int idx = tc == 0 ? 0 : tc - 1;
+	nodes.resize(tc + fc);
+
+	Node **to_ptr = nodes.ptr();
+	for (const Variant &E : p_array) {
+		to_ptr[idx++] = Object::cast_to<Node>(E);
+	}
+}
+
+void PackedNodeArray::append_packed_node_array(const PackedNodeArray &p_array) {
+	const int fc = p_array.size();
+	const int tc = nodes.size();
+	if (fc == 0) {
+		return;
+	}
+
+	int idx = tc == 0 ? 0 : tc - 1;
+	nodes.resize(tc + fc);
+
+	Node **to_ptr = nodes.ptr();
+	Node **from_ptr = p_array.ptr();
+	for (int i = 0; i < fc; i++) {
+		to_ptr[idx++] = from_ptr[i];
+	}
 }
 
 Node *PackedNodeArray::get_node(int p_index) const {
@@ -173,6 +206,8 @@ Node *PackedNodeArray::_iter_get(const Variant &p_args) {
 void PackedNodeArray::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("push_back", "node"), &PackedNodeArray::push_back);
 	ClassDB::bind_method(D_METHOD("append", "node"), &PackedNodeArray::append);
+	ClassDB::bind_method(D_METHOD("append_typed_array", "array"), &PackedNodeArray::append_typed_array);
+	//ClassDB::bind_method(D_METHOD("append_packed_node_array", "array"), &PackedNodeArray::append_packed_node_array);
 	ClassDB::bind_method(D_METHOD("get_node", "index"), &PackedNodeArray::get_node);
 	ClassDB::bind_method(D_METHOD("set_node", "index", "node"), &PackedNodeArray::set_node);
 	ClassDB::bind_method(D_METHOD("size"), &PackedNodeArray::size);
