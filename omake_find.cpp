@@ -31,6 +31,70 @@
 #include "core/object/script_language.h"
 #include "scene/main/node.h"
 
+struct NodeStack {
+	static const size_t STACK_SIZE = 20;
+	static const size_t HEAP_INC_SIZE = 100;
+
+	int _i = 0;
+	bool _is_heap = false;
+	int _heap_size = 0;
+	Node *_stack[STACK_SIZE + 1]; // FIXME
+	Ref<PackedNodeArray> _heap;
+	Node **_cur_ptr;
+
+	NodeStack() {
+		_cur_ptr = _stack;
+	}
+
+	_FORCE_INLINE_ bool is_empty() {
+		return _i <= 0;
+	}
+
+	/*_FORCE_INLINE_*/ void push_back(const Node *p_node) {
+		_cur_ptr[_i++] = (Node*) p_node;
+
+		// If over heap size, increase size
+		if (_is_heap && _i >= _heap_size) {
+			_heap_size += HEAP_INC_SIZE;
+			_heap->resize(_heap_size);
+			_cur_ptr = _heap->ptrw();
+		// If over stack size, switch to heap
+		} else if (!_is_heap && _i >= STACK_SIZE) {
+			int len = _i;
+			_is_heap = true;
+			_heap = memnew(PackedNodeArray);
+			_heap_size = HEAP_INC_SIZE;
+			_heap->resize(_heap_size);
+			_cur_ptr = _heap->ptrw();
+			memcpy(_cur_ptr, _stack, len * sizeof(Node *));
+		}
+	}
+
+	_FORCE_INLINE_ Node* pop_back() {
+		return _cur_ptr[--_i];
+	}
+
+	_FORCE_INLINE_ Node* get(const int i) {
+		return _cur_ptr[i];
+	}
+
+	Ref<PackedNodeArray> to_packed_node_array() {
+		int len = _i;
+		if (!_is_heap) {
+			_is_heap = true;
+			_heap = memnew(PackedNodeArray);
+			_heap_size = len;
+			_heap->resize(_heap_size);
+			_cur_ptr = _heap->ptrw();
+			memcpy(_cur_ptr, _stack, len * sizeof(Node *));
+		} else {
+			_heap->resize(len);
+		}
+
+		return _heap;
+	}
+};
+
 Node *const *OmakeFind::_get_children_ptr(const Node *p_node, int *p_count, bool p_include_internal) {
 	*p_count = p_node->get_child_count();
 	int offset = p_include_internal ? 0 : p_node->data.internal_children_front_count_cache;
@@ -57,15 +121,15 @@ Ref<PackedNodeArray> OmakeFind::get_children_by_name(const Node *p_node, const S
 
 	int cc;
 	Node *const *from_ptr = _get_children_ptr(p_node, &cc, true);
+	auto matches = NodeStack();
 
-	Ref<PackedNodeArray> matches = memnew(PackedNodeArray);
 	for (int i = 0; i < cc; i++) {
 		if (from_ptr[i]->data.name.operator String().match(p_pattern)) {
-			matches->push_back(from_ptr[i]);
+			matches.push_back(from_ptr[i]);
 		}
 	}
 
-	return matches;
+	return matches.to_packed_node_array();
 }
 
 Ref<PackedNodeArray> OmakeFind::get_children_by_group(const Node *p_node, const StringName &p_group_name) {
@@ -74,14 +138,15 @@ Ref<PackedNodeArray> OmakeFind::get_children_by_group(const Node *p_node, const 
 	int cc;
 	Node *const *from_ptr = _get_children_ptr(p_node, &cc, true);
 
-	Ref<PackedNodeArray> matches = memnew(PackedNodeArray);
+	auto matches = NodeStack();
+
 	for (int i = 0; i < cc; i++) {
 		if (from_ptr[i]->is_in_group(p_group_name)) {
-			matches->push_back(from_ptr[i]);
+			matches.push_back(from_ptr[i]);
 		}
 	}
 
-	return matches;
+	return matches.to_packed_node_array();
 }
 
 Ref<PackedNodeArray> OmakeFind::find_children(const Node *p_node) {
@@ -99,12 +164,11 @@ Ref<PackedNodeArray> OmakeFind::find_children_by_type(const Node *p_node, const 
 Ref<PackedNodeArray> OmakeFind::find_children_by_group(const Node *p_node, const StringName &p_group_name) {
 	//ERR_THREAD_GUARD_V(TypedArray<Node>()); // FIXME
 
-	LocalVector<Node *> to_search;
-	Ref<PackedNodeArray> matches = memnew(PackedNodeArray);
-	to_search.push_back((Node *)p_node);
+	auto to_search = NodeStack();
+	auto matches = NodeStack();
+	to_search.push_back(p_node);
 	while (!to_search.is_empty()) {
-		Node *entry = to_search[to_search.size() - 1];
-		to_search.remove_at(to_search.size() - 1);
+		Node *entry = to_search.pop_back();
 
 		entry->_update_children_cache();
 		Node *const *cptr = entry->data.children_cache.ptr();
@@ -114,22 +178,21 @@ Ref<PackedNodeArray> OmakeFind::find_children_by_group(const Node *p_node, const
 		}
 
 		if (entry->is_in_group(p_group_name) && entry != p_node) {
-			matches->push_back(entry);
+			matches.push_back(entry);
 		}
 	}
 
-	return matches;
+	return matches.to_packed_node_array();
 }
 
 Ref<PackedNodeArray> OmakeFind::find_children_by_groups(const Node *p_node, const TypedArray<StringName> &p_group_names) {
 	//ERR_THREAD_GUARD_V(TypedArray<Node>()); // FIXME
 
-	Ref<PackedNodeArray> matches = memnew(PackedNodeArray);
-	LocalVector<Node *> to_search;
-	to_search.push_back((Node *)p_node);
+	auto to_search = NodeStack();
+	auto matches = NodeStack();
+	to_search.push_back(p_node);
 	while (!to_search.is_empty()) {
-		Node *entry = to_search[to_search.size() - 1];
-		to_search.remove_at(to_search.size() - 1);
+		Node *entry = to_search.pop_back();
 
 		entry->_update_children_cache();
 		Node *const *cptr = entry->data.children_cache.ptr();
@@ -141,12 +204,12 @@ Ref<PackedNodeArray> OmakeFind::find_children_by_groups(const Node *p_node, cons
 		const int ncount = p_group_names.size();
 		for (int i = 0; i < ncount; i++) {
 			if (entry->is_in_group(p_group_names[i]) && entry != p_node) {
-				matches->push_back(entry);
+				matches.push_back(entry);
 			}
 		}
 	}
 
-	return matches;
+	return matches.to_packed_node_array();
 }
 
 Ref<PackedNodeArray> OmakeFind::find_children_by(const Node *p_node, const String &p_pattern, const StringName &p_type, const bool p_recursive, const bool p_owned) {
@@ -159,14 +222,13 @@ Ref<PackedNodeArray> OmakeFind::find_children_by(const Node *p_node, const Strin
 	bool is_type_global_class = !is_type_empty && ScriptServer::is_global_class(p_type);
 	String type_global_path = is_type_global_class ? ScriptServer::get_global_class_path(p_type) : "";
 
-	LocalVector<Node *> to_search;
-	Ref<PackedNodeArray> matches = memnew(PackedNodeArray);
-	to_search.push_back((Node *)p_node);
+	auto to_search = NodeStack();
+	auto matches = NodeStack();
+	to_search.push_back(p_node);
 	bool is_adding_children = true;
 	while (!to_search.is_empty()) {
 		// Pop the next entry off the search stack
-		Node *entry = to_search[to_search.size() - 1];
-		to_search.remove_at(to_search.size() - 1);
+		Node *entry = to_search.pop_back();
 
 		// Add all the children to the list to search
 		entry->_update_children_cache();
@@ -207,11 +269,11 @@ Ref<PackedNodeArray> OmakeFind::find_children_by(const Node *p_node, const Strin
 
 		// Save it if it matches the pattern and at least one type
 		if (is_pattern_match && (is_type_match || is_script_type_match) && entry != p_node) {
-			matches->push_back(entry);
+			matches.push_back(entry);
 		}
 	}
 
-	return matches;
+	return matches.to_packed_node_array();
 }
 
 PackedStringArray OmakeFind::get_groups(const Node *p_node) {
