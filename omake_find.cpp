@@ -121,6 +121,7 @@ Ref<PackedNodeArray> OmakeFind::get_children_by_name(const Node *p_node, const S
 
 	int cc;
 	Node *const *from_ptr = _get_children_ptr(p_node, &cc, true);
+	const char32_t *pattern_data = p_pattern.get_data();
 	auto matches = NodeStack();
 
 	for (int i = 0; i < cc; i++) {
@@ -218,6 +219,7 @@ Ref<PackedNodeArray> OmakeFind::find_children_by(const Node *p_node, const Strin
 
 	// Save basic pattern and type info for faster lookup
 	bool is_pattern_empty = p_pattern.is_empty();
+	bool is_pattern_star = p_pattern == "*";
 	bool is_type_empty = p_type.is_empty();
 	bool is_type_global_class = !is_type_empty && ScriptServer::is_global_class(p_type);
 	String type_global_path = is_type_global_class ? ScriptServer::get_global_class_path(p_type) : "";
@@ -250,7 +252,9 @@ Ref<PackedNodeArray> OmakeFind::find_children_by(const Node *p_node, const Strin
 		}
 
 		// Check if the entry matches
-		bool is_pattern_match = is_pattern_empty || entry->data.name.operator String().match(p_pattern);
+		bool is_pattern_match = is_pattern_empty ||
+			(is_pattern_star && entry->data.name.length() != 0) ||
+			entry->data.name.operator String().match(p_pattern);
 		bool is_type_match = is_type_empty || entry->is_class(p_type);
 		bool is_script_type_match = false;
 		if (!is_type_match) {
