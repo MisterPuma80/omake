@@ -110,7 +110,7 @@ Ref<PackedNodeArray> OmakeFind::get_children(const Node *p_node, const bool p_in
 
 	Ref<PackedNodeArray> nodes = memnew(PackedNodeArray);
 	nodes->resize(cc);
-	Node **to_ptr = nodes->get_node_ptr()->ptr();
+	Node **to_ptr = nodes->ptrw();
 	memcpy(to_ptr, from_ptr, cc * sizeof(Node *));
 
 	return nodes;
